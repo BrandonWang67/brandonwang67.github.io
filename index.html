@@ -46,25 +46,26 @@
 <body class="antialiased">
 
     <div class="container mx-auto max-w-5xl px-4 py-8 md:py-12">
-        <!-- Header Section -->
         <header class="flex flex-col md:flex-row justify-between items-center mb-12">
-            <div>
-                <h1 class="text-4xl font-bold">Brandon Wang</h1>
-                <p class="text-lg text-gray-400">Electrical Engineering Student</p>
+            <div class="flex items-center space-x-4">
+                <img src="headshot.jpg" alt="Brandon Wang Headshot" class="w-24 h-24 rounded-full object-cover">
+                <div>
+                    <h1 class="text-4xl font-bold">Brandon Wang</h1>
+                    <p class="text-lg text-gray-400">Electrical Engineering Undergraduate</p>
+                </div>
             </div>
             <nav class="mt-6 md:mt-0">
                 <ul class="flex space-x-6 text-lg">
                     <li><a href="#about" class="nav-link pb-1 border-b-2 border-transparent active">About Me</a></li>
                     <li><a href="#projects" class="nav-link pb-1 border-b-2 border-transparent">Projects</a></li>
+                    <li><a href="#contact" class="nav-link pb-1 border-b-2 border-transparent">Contact</a></li>
                 </ul>
             </nav>
         </header>
 
         <main>
-            <!-- About Me / Resume Section -->
             <section id="about" class="content-section active">
                 <div class="space-y-12">
-                    <!-- Education -->
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Education</h2>
                         <div class="bg-secondary p-6 rounded-lg shadow-lg">
@@ -77,7 +78,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Experience -->
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Work Experience</h2>
                         <div class="space-y-6">
@@ -87,50 +87,54 @@
                                 <div class="mt-4">
                                     <h4 class="font-semibold accent-color">Dishwashers, New Product Introduction (May 2025 - Aug. 2025)</h4>
                                     <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
-                                        <li>Resolved 3 FRACAS items though root cause analyses to drive long-term reliability and design improvements.</li>
-                                        <li>Managed over 100+ dishwashers in field tests, ensuring up-to-date software, continuous operation, and test reliability.</li>
-                                        <li>Designed a ESP32 shield using VL53L0X infrared sensor in Cadence Allegro to transmit distance data wirelessly.</li>
-                                        <li>Built a Python-based program to automate weekly OTA software updates and system logging, eliminating manual effort.</li>
+                                        <li>Resolved 3 FRACAS items though root cause analyses to drive long-term reliability and design improvements</li>
+                                        <li>Managed over 100+ dishwashers in field tests, ensuring up-to-date software, continuous operation, and test reliability</li>
+                                        <li>Designed a ESP32 shield using VL53L0X infrared sensor in Cadence Allegro to transmit distance data wirelessly</li>
+                                        <li>Built a Python-based program to automate weekly OTA software updates and system logging, eliminating manual effort</li>
+                                        <li>Reworked dishwashers in test labs to integrate a new LCD from an alternate manufacturer, ensuring 100% functionality</li>
                                     </ul>
                                 </div>
                                 <div class="mt-4">
                                     <h4 class="font-semibold accent-color">Refrigeration, Cost of Quality (Jan. 2025 - May 2025)</h4>
                                     <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
-                                        <li>Conducted in-depth root cause analyses on refrigerator circuit boards to identify defects and ensure quality control.</li>
-                                        <li>Designed test board panels to efficiently compare 5+ different LED color temperatures and its effect on food appearance.</li>
-                                        <li>Performed electrostatic discharge testing to locate common power rail failure in multi-door refrigerator main boards.</li>
+                                        <li>Conducted in-depth root cause analyses on refrigerator circuit boards to identify defects and ensure quality control</li>
+                                        <li>Designed test board panels to efficiently compare 5+ different LED color temperatures and its effect on food appearance</li>
+                                        <li>Performed electrostatic discharge testing to locate common power rail failure in multi-door refrigerator main boards</li>
+                                        <li>Conducted autofill testing to determine reliability of new ultrasonic sensors with variations in sensitivity and coupling</li>
+                                        <li>Used accelerated life testing methods to evaluate the long-term reliability of various LED models for refrigerators</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Research Experience -->
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Research Experience</h2>
-                         <div class="bg-secondary p-6 rounded-lg shadow-lg">
-                            <h3 class="text-xl font-bold">Wearable and Implantable Tech., Electroscience Lab | Undergraduate Researcher</h3>
-                            <p class="text-gray-400 italic">Columbus, OH</p>
-                             <div class="mt-4">
-                                <h4 class="font-semibold accent-color">Circuit Design for Interactive Game for Children (Aug. 2025 - Present)</h4>
-                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
-                                    <li>Leading wearable watch designs for touch based games for kids, in collaboration with Nationwide Children's Hospital.</li>
-                                    <li>Designing 12MHz transmitter and receiver schematics and layouts, keeping total footprint under a strict 40mm.</li>
-                                    <li>Developing embedded firmware for nRF52840 microcontroller, processing analog to digital inputs with low latency.</li>
-                                </ul>
-                            </div>
-                            <div class="mt-4">
-                                <h4 class="font-semibold accent-color">Magnetocardiogram (MCG) Sensors (Jan. 2024 - Jan. 2025)</h4>
-                                <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
-                                    <li>Created a new coil array housing to boost testing efficiency and enabling color customization when testing with children.</li>
-                                    <li>Simplified magnetocardiogram testing setup by 50%, increasing signal-to-noise ratio by 10% and ease of testing.</li>
-                                    <li>Constructed a user interface in LabVIEW to collect data from magnetocardiogram and electrocardiogram apparatus.</li>
-                                </ul>
-                            </div>
+                            <div class="bg-secondary p-6 rounded-lg shadow-lg">
+                                <h3 class="text-xl font-bold">Wearable and Implantable Tech., Electroscience Lab | Undergraduate Researcher</h3>
+                                <p class="text-gray-400 italic">Columbus, OH</p>
+                                <div class="mt-4">
+                                    <h4 class="font-semibold accent-color">Circuit Design for Interactive Game for Children (Aug. 2025 - Present)</h4>
+                                    <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
+                                        <li>Leading wearable watch designs for touch based games for kids, in collaboration with Nationwide Children's Hospital</li>
+                                        <li>Designing 12MHz transmitter and receiver schematics and layouts, keeping total footprint under a strict 40mm</li>
+                                        <li>Developing embedded firmware for nRF52840 microcontroller, processing analog to digital inputs with low latency</li>
+                                        <li>Boosted system capability by 200% with the inclusion of analog IMU and FSR sensors to enable more variety inputs</li>
+                                        <li>Simulated Chebyshev filters to optimize design for passband frequency, increasing signal transmission integrity</li>
+                                    </ul>
+                                </div>
+                                <div class="mt-4">
+                                    <h4 class="font-semibold accent-color">Magnetocardiogram (MCG) Sensors (Jan. 2024 - Jan. 2025)</h4>
+                                    <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
+                                        <li>Created a new coil array housing to boost testing efficiency and enabling color customization when testing with children</li>
+                                        <li>Simplified magnetocardiogram testing setup by 50%, increasing signal-to-noise ratio by 10% and ease of testing</li>
+                                        <li>Applied empirical mode decomposition to a program to extract one averaged heartbeat frame from large datasets</li>
+                                        <li>Constructed a user interface in LabVIEW to collect data from magnetocardiogram and electrocardiogram apparatus</li>
+                                    </ul>
+                                </div>
                         </div>
                     </div>
 
-                    <!-- Skills -->
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Skills</h2>
                         <div class="bg-secondary p-6 rounded-lg shadow-lg">
@@ -153,10 +157,8 @@
                 </div>
             </section>
 
-            <!-- Projects Section -->
             <section id="projects" class="content-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Project 1 -->
                     <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
                         <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+1" alt="Project 1 Placeholder" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -165,7 +167,6 @@
                             <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
                         </div>
                     </div>
-                    <!-- Project 2 -->
                     <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
                         <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+2" alt="Project 2 Placeholder" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -174,7 +175,6 @@
                             <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
                         </div>
                     </div>
-                    <!-- Project 3 -->
                     <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
                         <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+3" alt="Project 3 Placeholder" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -183,7 +183,6 @@
                             <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
                         </div>
                     </div>
-                    <!-- Project 4 -->
                     <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
                         <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+4" alt="Project 4 Placeholder" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -192,7 +191,6 @@
                             <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
                         </div>
                     </div>
-                    <!-- Project 5 -->
                     <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
                         <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+5" alt="Project 5 Placeholder" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -201,7 +199,6 @@
                             <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
                         </div>
                     </div>
-                    <!-- Project 6 -->
                     <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
                         <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+6" alt="Project 6 Placeholder" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -212,6 +209,39 @@
                     </div>
                 </div>
             </section>
+
+            <section id="contact" class="content-section">
+                <div class="bg-secondary p-8 rounded-lg shadow-lg">
+                    <div class="max-w-xl mx-auto space-y-6">
+                        <a href="mailto:brandonreiwang@gmail.com" class="flex items-center space-x-4 p-4 bg-[#222831] rounded-lg hover:bg-gray-700 transition-colors">
+                            <svg class="w-8 h-8 accent-color" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                            <span class="text-lg">brandonreiwang@gmail.com</span>
+                        </a>
+                        <div class="flex items-center space-x-4 p-4 bg-[#222831] rounded-lg">
+                            <svg class="w-8 h-8 accent-color" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                            </svg>
+                             <span class="text-lg">(513) 250-8518</span>
+                        </div>
+                        <a href="https://linkedin.com/in/brandonreiwang" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-4 p-4 bg-[#222831] rounded-lg hover:bg-gray-700 transition-colors">
+                            <svg class="w-8 h-8 accent-color" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                            <span class="text-lg">linkedin.com/in/brandonreiwang</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                     <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Resume</h2>
+                     <div class="rounded-lg overflow-hidden">
+                        <embed src="resume.pdf" type="application/pdf" width="100%" height="800px" />
+                     </div>
+                </div>
+
+            </section>
         </main>
     </div>
 
@@ -220,6 +250,7 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const contentSections = document.querySelectorAll('.content-section');
 
+            // Handle navigation clicks
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -237,10 +268,11 @@
                             section.classList.remove('active');
                         }
                     });
+                     // Scroll to the top of the main content area
+                    document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
                 });
             });
         });
     </script>
 </body>
 </html>
-
