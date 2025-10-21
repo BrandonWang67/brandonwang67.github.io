@@ -22,11 +22,32 @@
             background-color: #393E46;
         }
         .nav-link {
-            transition: color 0.3s, border-bottom-color 0.3s;
+            transition: color 0.3s;
+            position: relative;
+            z-index: 1;
+            padding: 0.5rem 1rem;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid #00ADB5;
+            border-radius: 9999px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            z-index: -1;
+        }
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: scale(1);
+            opacity: 1;
         }
         .nav-link.active {
             color: #00ADB5;
-            border-bottom-color: #00ADB5;
         }
         .content-section {
             display: none;
@@ -34,12 +55,50 @@
         .content-section.active {
             display: block;
         }
-        .project-card {
+        .interactive-card {
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        .project-card:hover {
+        .interactive-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 173, 181, 0.1), 0 4px 6px -2px rgba(0, 173, 181, 0.05);
+        }
+        /* Modal Styles */
+        body.modal-open {
+            overflow: hidden;
+        }
+        #project-modal {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+        #project-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #project-modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        #project-modal.visible #project-modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        #close-modal {
+            font-size: 2.5rem;
+            line-height: 1;
+            font-weight: bold;
+        }
+        #project-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        #project-modal-content::-webkit-scrollbar-track {
+            background: #222831;
+        }
+        #project-modal-content::-webkit-scrollbar-thumb {
+            background-color: #00ADB5;
+            border-radius: 4px;
+            border: 2px solid #222831;
         }
     </style>
 </head>
@@ -48,27 +107,27 @@
     <div class="container mx-auto max-w-5xl px-4 py-8 md:py-12">
         <header class="flex flex-col md:flex-row justify-between items-center mb-12">
             <div class="flex items-center space-x-4">
-                <img src="headshot.jpg" alt="Brandon Wang Headshot" class="w-24 h-24 rounded-full object-cover">
+                <img src="headshot.jpg" alt="Brandon Wang Headshot" class="w-24 h-24 rounded-full object-cover border-2 border-[#00ADB5]">
                 <div>
                     <h1 class="text-4xl font-bold">Brandon Wang</h1>
                     <p class="text-lg text-gray-400">Electrical Engineering Undergraduate</p>
                 </div>
             </div>
             <nav class="mt-6 md:mt-0">
-                <ul class="flex space-x-6 text-lg">
-                    <li><a href="#about" class="nav-link pb-1 border-b-2 border-transparent active">About Me</a></li>
-                    <li><a href="#projects" class="nav-link pb-1 border-b-2 border-transparent">Projects</a></li>
-                    <li><a href="#contact" class="nav-link pb-1 border-b-2 border-transparent">Contact</a></li>
+                <ul class="flex space-x-2 text-lg">
+                    <li><a href="#about" class="nav-link active">About Me</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
         </header>
 
         <main>
             <section id="about" class="content-section active">
-                <div class="space-y-12">
+                <div class="space-y-10">
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Education</h2>
-                        <div class="bg-secondary p-6 rounded-lg shadow-lg">
+                        <div class="bg-secondary p-6 rounded-lg shadow-lg interactive-card">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-xl font-bold">The Ohio State University</h3>
                                 <p class="text-gray-400">Expected May 2027</p>
@@ -77,11 +136,11 @@
                             <p class="mt-2 text-gray-300">Areas of Interest: Circuit Design, Radio Frequency (RF), Wearables, Medical Devices, Consumer Electronics</p>
                         </div>
                     </div>
-
+                    
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Work Experience</h2>
                         <div class="space-y-6">
-                            <div class="bg-secondary p-6 rounded-lg shadow-lg">
+                            <div class="bg-secondary p-6 rounded-lg shadow-lg interactive-card">
                                 <h3 class="text-xl font-bold">GE Appliances | Electrical Engineering Co-op</h3>
                                 <p class="text-gray-400 italic">Louisville, KY</p>
                                 <div class="mt-4">
@@ -110,7 +169,7 @@
 
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Research Experience</h2>
-                            <div class="bg-secondary p-6 rounded-lg shadow-lg">
+                            <div class="bg-secondary p-6 rounded-lg shadow-lg interactive-card">
                                 <h3 class="text-xl font-bold">Wearable and Implantable Tech., Electroscience Lab | Undergraduate Researcher</h3>
                                 <p class="text-gray-400 italic">Columbus, OH</p>
                                 <div class="mt-4">
@@ -137,7 +196,7 @@
 
                     <div>
                         <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Skills</h2>
-                        <div class="bg-secondary p-6 rounded-lg shadow-lg">
+                        <div class="bg-secondary p-6 rounded-lg shadow-lg interactive-card">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
                                     <h4 class="font-semibold accent-color text-lg">Software</h4>
@@ -159,52 +218,205 @@
 
             <section id="projects" class="content-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+1" alt="Project 1 Placeholder" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 1</h3>
-                            <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solves.</p>
-                            <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
+                    <!-- Project 1 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Wearable+Game" alt="Circle Project" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Circle (In progress...)</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">Wearable devices serving as a game controller for touch based interative game for kids.</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Circle (In progress...)"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=Wearable+Game"
+                            data-description="This project, in collaboration
+                            with Nationwide Children's Hospital, focuses on
+                            creating wearable 'Circle' devices that act as game
+                            controllers. The goal is to develop an engaging,
+                            touch-based interactive game for children that can
+                            also serve therapeutic purposes. My role involves
+                            leading the hardware design, including the schematic
+                            and layout of a compact 12MHz transmitter and
+                            receiver, ensuring the total footprint is under
+                            40mm. I am also developing low-latency embedded
+                            firmware for the nRF52840 microcontroller to process
+                            inputs from analog IMU and FSR sensors, which were
+                            integrated to expand the system's input capabilities
+                            by 200%.">
+                                View Details &rarr;
+                            </button>
                         </div>
                     </div>
-                    <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+2" alt="Project 2 Placeholder" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 2</h3>
-                            <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solves.</p>
-                            <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
+                    <!-- Project 2 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=MCG+Sensor" alt="MCG Sensor" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Magnetocardiogram Sensor</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">A 3D-printed sensor housing a coil array to measure the heart's biomagnetic signals non-invasively.</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Magnetocardiogram (MCG) Sensor"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=MCG+Sensor"
+                            data-description="As part of my research at the
+                            Electroscience Lab, I designed and fabricated a new
+                            housing for a magnetocardiogram (MCG) coil array.
+                            This new design improved testing efficiency by
+                            simplifying the setup by 50% and increasing the
+                            signal-to-noise ratio by 10%. The housing was
+                            created using Fusion360 and 3D printing, which also
+                            allowed for color customization to create a more
+                            welcoming environment for pediatric subjects during
+                            testing. This work contributed to the lab's ability
+                            to gather cleaner data on the heart's faint magnetic
+                            fields.">
+                                View Details &rarr;
+                            </button>
                         </div>
                     </div>
-                    <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+3" alt="Project 3 Placeholder" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 3</h3>
-                            <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solves.</p>
-                            <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
+                    <!-- Project 3 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=ToF+Sensor" alt="Time of Flight Sensor" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Time of Flight Sensor</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">An ESP32 shield using a VL53L0X IR sensor to enable wireless distance tracking for appliance testing.</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Time of Flight Sensor Shield"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=ToF+Sensor"
+                            data-description="During my co-op at GE Appliances,
+                            I was tasked with creating a tool to monitor
+                            mechanical movements inside a dishwasher during
+                            testing. I designed a custom PCB shield for an ESP32
+                            microcontroller in Cadence Allegro. This shield
+                            incorporates a VL53L0X Time-of-Flight (ToF) infrared
+                            sensor to accurately measure distances. The ESP32
+                            wirelessly transmits this data, allowing engineers
+                            to monitor component positions and ensure
+                            reliability without physically interfering with the
+                            test unit.">
+                                View Details &rarr;
+                            </button>
                         </div>
                     </div>
-                    <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+4" alt="Project 4 Placeholder" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 4</h3>
-                            <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solves.</p>
-                            <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
+                    <!-- Project 4 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Stroller+Assist" alt="Assistive Device for Push Strollers" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Assistive Device for Push Strollers</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">An adaptable stroller attachment designed to ease the physical demands on caregivers.</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Assistive Device for Push Strollers"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=Stroller+Assist"
+                            data-description="This project was developed for a
+                            university design competition focused on assistive
+                            technologies. Our team designed a modular, motorized
+                            attachment for standard push strollers. The device
+                            uses a battery-powered hub motor to provide forward
+                            propulsion, reducing the force required from the
+                            caregiver, especially when navigating inclines or
+                            rough terrain. I was responsible for the electronic
+                            control system, which included selecting the motor
+                            controller, designing a simple user interface with
+                            speed control, and integrating safety features.">
+                                View Details &rarr;
+                            </button>
                         </div>
                     </div>
-                    <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+5" alt="Project 5 Placeholder" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 5</h3>
-                            <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solves.</p>
-                            <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
+                    <!-- Project 5 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Battlebot" alt="APPA Battlebot" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">APPA</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">A 15lb combat robot with a 3.2lb vertical spinner weapon carrying a tip speed of 120mph.</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="APPA - 15lb Battlebot"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=Battlebot"
+                            data-description="As a member of The Ohio State
+                            University's combat robotics club, I helped design
+                            and build APPA, a 15lb bot for the Beetleweight
+                            class. My focus was on the electrical system,
+                            including power distribution, selecting brushless
+                            motors for the weapon and drive, and configuring the
+                            radio control system. The main weapon is a 3.2lb
+                            vertical spinning bar, engineered to reach a tip
+                            speed of 120mph to inflict maximum damage. The
+                            project was a fantastic exercise in system
+                            integration, power management, and designing for
+                            durability under extreme conditions.">
+                                View Details &rarr;
+                            </button>
                         </div>
                     </div>
-                    <div class="project-card bg-secondary rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=Project+6" alt="Project 6 Placeholder" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 6</h3>
-                            <p class="text-gray-300 mb-4">A brief description of your project. Talk about the technologies used and the problem it solves.</p>
-                            <a href="#" class="font-medium accent-color hover:underline">View Details &rarr;</a>
+                    <!-- Project 6 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=MCG+Filtering" alt="MCG Filtering Program" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Simulated MCG Filtering Program</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">A MATLAB program that uses Empirical Mode Decomposition to average noisy signals into one clear frame.</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Simulated MCG Filtering Program"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=MCG+Filtering"
+                            data-description="To process the raw data from our
+                            magnetocardiogram (MCG) sensor, I developed a
+                            program in MATLAB. The raw signals are extremely low
+                            amplitude and buried in noise. This program applies
+                            Empirical Mode Decomposition (EMD) to break down the
+                            complex signal into a series of Intrinsic Mode
+                            Functions (IMFs). By analyzing and filtering these
+                            IMFs, the program can effectively isolate the
+                            heartbeat signal from noise and artifacts. Finally,
+                            it averages hundreds of heartbeats to produce a
+                            single, high-resolution frame of the cardiac
+                            magnetic field, which is crucial for analysis.">
+                                View Details &rarr;
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Project 7 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=MCG+Filtering" alt="Chickens vs. Zombies" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Chickens vs. Zombies</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">Plants vs. Zombies inspired game programmed in MATLAB, First Year Engineering Project</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Chickens vs. Zombies"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=MCG+Filtering"
+                            data-description="Blah blah blah">
+                                View Details &rarr;
+                            </button>
+                        </div>
+                    </div>   
+                    <!-- Project 8 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=MCG+Filtering" alt="Birthday Binary Counter" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">Birthday Binary Counter</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">Switches counting up in binary using logic gates to display birth date on seven segment display</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="Birthday Binary Counter"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=MCG+Filtering"
+                            data-description="Blah blah blah">
+                                View Details &rarr;
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Project 9 -->
+                    <div class="interactive-card bg-secondary rounded-lg shadow-lg overflow-hidden flex flex-col">
+                        <img src="https://placehold.co/600x400/222831/EEEEEE?text=MCG+Filtering" alt="2 Player Snake Game" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold mb-2">2 Player Snake Game</h3>
+                            <p class="text-gray-300 mb-4 flex-grow">Inspired by the game Tron, game controlled using joysticks and Arduino</p>
+                            <button class="view-details-btn font-medium
+                            accent-color hover:underline text-left mt-auto"
+                            data-title="2 Player Snake Game"
+                            data-image="https://placehold.co/800x600/222831/EEEEEE?text=MCG+Filtering"
+                            data-description="Blah blah blah">
+                                View Details &rarr;
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -237,13 +449,33 @@
                 <div class="mt-12">
                      <h2 class="text-3xl font-bold mb-4 border-b-2 border-gray-700 pb-2">Resume</h2>
                      <div class="rounded-lg overflow-hidden">
-                        <embed src="resume.pdf" type="application/pdf" width="100%" height="800px" />
+                         <embed src="resume.pdf" type="application/pdf" width="100%" height="800px" />
                      </div>
                 </div>
 
             </section>
         </main>
     </div>
+
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+        <div id="project-modal-content" class="bg-secondary text-gray-200 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-secondary p-4 md:p-6 border-b border-gray-700 flex justify-between items-center z-10">
+                <h3 id="modal-title" class="text-2xl md:text-3xl font-bold accent-color">Project Title</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-white transition-colors">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-4 md:p-8 space-y-6">
+                <img id="modal-main-image" src="https://placehold.co/800x600/222831/EEEEEE?text=Main+Image" alt="Project Main Image" class="w-full rounded-lg shadow-md mb-4">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2 border-b border-gray-600 pb-2">Description</h4>
+                    <p id="modal-description" class="text-gray-300 leading-relaxed pt-2"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -255,11 +487,9 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
 
-                    // Update active link
                     navLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Show correct content section
                     const targetId = this.getAttribute('href').substring(1);
                     contentSections.forEach(section => {
                         if (section.id === targetId) {
@@ -268,11 +498,76 @@
                             section.classList.remove('active');
                         }
                     });
-                     // Scroll to the top of the main content area
-                    document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+                     // We don't want to scroll on nav click, just switch tabs.
+                     window.scrollTo(0, 0);
                 });
             });
+
+            // --- Modal Functionality ---
+            const modal = document.getElementById('project-modal');
+            if (modal) {
+                const modalContent = document.getElementById('project-modal-content');
+                const closeModalBtn = document.getElementById('close-modal');
+                const viewDetailsBtns = document.querySelectorAll('.view-details-btn');
+                const modalTitle = document.getElementById('modal-title');
+                const modalImage = document.getElementById('modal-main-image');
+                const modalDescription = document.getElementById('modal-description');
+
+                // Function to open the modal
+                function openModal() {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.add('visible');
+                    }, 10);
+                    document.body.classList.add('modal-open');
+                }
+
+                // Function to close the modal
+                function closeModal() {
+                    modal.classList.remove('visible');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                        document.body.classList.remove('modal-open');
+                    }, 300); // Match CSS transition duration
+                }
+
+                viewDetailsBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const title = this.dataset.title;
+                        const image = this.dataset.image;
+                        const description = this.dataset.description;
+
+                        modalTitle.textContent = title;
+                        modalImage.src = image;
+                        modalDescription.textContent = description;
+                        
+                        // Add an onerror fallback for the image
+                        modalImage.onerror = function() {
+                            this.onerror=null;
+                            this.src='https://placehold.co/800x600/222831/EEEEEE?text=Image+Not+Found';
+                        };
+
+                        openModal();
+                    });
+                });
+
+                // Close modal events
+                closeModalBtn.addEventListener('click', closeModal);
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+                
+                // Close with escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && modal.classList.contains('visible')) {
+                        closeModal();
+                    }
+                });
+            }
         });
     </script>
 </body>
 </html>
+
