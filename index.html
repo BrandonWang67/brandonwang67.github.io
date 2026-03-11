@@ -244,7 +244,6 @@
       .project-card,
       .helper-card,
       .headshot-card,
-      .home-projects-card,
       .home-carousel-slide {
         border: 1px solid var(--line);
         background: var(--card);
@@ -360,14 +359,6 @@
       .helper-card {
         color: var(--muted);
         line-height: 1.8;
-      }
-
-      .home-projects-card {
-        margin-top: 24px;
-        border-radius: 34px;
-        padding: 26px;
-        background:
-          linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, white), color-mix(in srgb, var(--card) 98%, transparent));
       }
 
       .home-projects-header {
@@ -569,9 +560,40 @@
         color: var(--muted);
       }
 
+      /* EXPERIENCE GRID & STACKED IMAGES STYLES */
+      .experience-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 32px;
+        align-items: stretch; /* Ensures columns are same height */
+        margin-top: 26px;
+      }
+
+      .experience-carousel-column {
+        height: 100%; /* Matches the height of the left column */
+      }
+
+      .experience-carousel-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 100%;
+        width: 100%;
+      }
+
+      .exp-carousel-img {
+        flex: 1; /* Distributes vertical space equally */
+        width: 100%;
+        min-height: 0; /* Allows shrinking within flex container */
+        object-fit: cover;
+        border-radius: 28px;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        background: var(--card);
+      }
+
       .timeline {
         position: relative;
-        margin-top: 26px;
         padding-left: 22px;
       }
 
@@ -614,7 +636,6 @@
         border-top: 1px dashed var(--line);
       }
 
-      /* Specific Layout Classes */
       .timeline-header {
         display: flex;
         justify-content: space-between;
@@ -674,17 +695,38 @@
         background: var(--pill);
       }
 
+      /* UPDATED PROJECTS GRID STYLES */
       .projects-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 20px;
+        grid-auto-rows: 1fr;
+        gap: 24px;
         margin-top: 24px;
       }
 
       .project-card {
-        border-radius: 28px;
-        padding: 24px;
+        border-radius: 30px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 0;
+        position: relative;
         text-align: left;
+        width: 100%;
+      }
+
+      .project-card-content {
+        padding: 24px;
+        flex-grow: 1;
+        text-align: left;
+      }
+
+      .project-card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-top: 1px solid var(--line);
+        background: color-mix(in srgb, var(--accent) 4%, var(--bg-elev));
       }
 
       .project-top {
@@ -692,6 +734,24 @@
         align-items: flex-start;
         justify-content: space-between;
         gap: 16px;
+      }
+
+      /* Attachment Indicator */
+      .attachment-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--accent-soft);
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+        opacity: 0.7;
       }
 
       .project-category {
@@ -830,6 +890,14 @@
         .gallery {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        .experience-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .experience-carousel-column {
+            display: none;
+        }
       }
 
       @media (max-width: 860px) {
@@ -942,11 +1010,6 @@
         .home-showcase {
           padding: 14px;
           border-radius: 28px;
-        }
-
-        .home-projects-card {
-          padding: 18px;
-          border-radius: 24px;
         }
 
         .home-carousel-slide {
@@ -1078,34 +1141,6 @@
                 </div>
               </div>
             </div>
-
-            <div class="home-projects-card">
-              <div class="home-projects-header">
-                <div class="home-projects-title-wrap">
-                  <div class="eyebrow" style="color: var(--accent);">Projects Showcase</div>
-
-                </div>
-
-                <div class="home-carousel-controls">
-                  <button class="carousel-arrow" id="homeCarouselPrev" aria-label="Previous project">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                      <path d="m15 18-6-6 6-6"/>
-                    </svg>
-                  </button>
-                  <button class="carousel-arrow" id="homeCarouselNext" aria-label="Next project">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                      <path d="m9 18 6-6-6-6"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="home-projects-viewport">
-                <div class="home-projects-track" id="homeProjectsTrack"></div>
-              </div>
-
-              <div class="home-carousel-dots" id="homeCarouselDots"></div>
-            </div>
           </div>
         </section>
 
@@ -1124,14 +1159,18 @@
 
         <section class="section page hidden" id="experience">
           <h2>Experience</h2>
-          <div class="timeline" id="timeline"></div>
+          <div class="experience-grid">
+            <div class="timeline" id="timeline"></div>
+            <div class="experience-carousel-column">
+                <div class="experience-carousel-container" id="expCarouselContainer">
+                </div>
+            </div>
+          </div>
         </section>
 
         <section class="section page hidden" id="projects">
           <h2>Projects</h2>
-
           <div class="projects-grid" id="projectsGrid"></div>
-
         </section>
 
         <section class="section page hidden" id="photography">
@@ -1160,6 +1199,12 @@
       const resumePdf = "BrandonWang_Resume.pdf";
       const headshotImage = "headshot.jpg";
 
+      const experienceImages = [
+        "e1.jpg",
+        "e2.jpg",
+        "e3.jpg"
+      ];
+
       const experiences = [
         {
           blockEntries: [
@@ -1175,7 +1220,7 @@
         {
           blockEntries: [
             {
-              title: "Wearable & Implantable Tech. Lab, Electroscience Laboratory",
+              title: "Electroscience Laboratory, WIT",
               role: "Undergraduate Researcher (Circle)",
               date: "Aug. 2025 - Present",
               location: "Columbus, OH",
@@ -1188,7 +1233,7 @@
             },
             {
               title: "Wearable & Implantable Tech. Lab, Electroscience Laboratory",
-              role: "Undergraduate Researcher (Magnetocardiogram Sensors)",
+              role: "Undergraduate Researcher (MCG Sensors)",
               date: "Jan. 2024 - Jan. 2025",
               location: "Columbus, OH",
               bullets: [
@@ -1236,28 +1281,92 @@
 
       const projects = [
         {
-          id: "circle-sensors",
-          title: "Circle Sensors",
+          title: "Circle v2.0 (current project)",
+          category: "Embedded Systems / RF Hardware",
+          summary: "Enhancing hardware design, firmware capabilities, and user experience based on initial testing and feedback of Circle v1.0",
+          tags: ["RF PCB Design", "Sensors", "Firmware"],
+          pdf: "",
+          image: "circleV2.png"
+        },
+        {
+          title: "Touchy Tetris",
           category: "Embedded Systems / Sensors",
-          summary: "Touch-based gaming sensor system with hardware and interaction design focused on accessible play.",
-          tags: ["PCB", "Sensors", "Firmware"],
-          pdf: "circle.pdf"
+          summary: "MakeOHI/O 2026: An interactive Tetris game controlled via ultrasonic distance sensors and an ESP32 for a touchless gaming experience",
+          tags: ["ESP32", "Ultrasonic Sensors", "Game Design"],
+          pdf: "MakeOHIO2026.mp4",
+          image: "tt.png"
         },
         {
-          id: "wearable-mcg",
-          title: "Wearable MCG System",
+          title: "Circle v1.0",
+          category: "Embedded Systems / RF Hardware",
+          summary: "Touch-based gaming sensor system with hardware and interaction design focused on accessible play",
+          tags: ["RF PCB Design", "Sensors", "Prototyping"],
+          pdf: "circle.pdf",
+          image: "circleV1.jpg"
+        },
+        {
+          title: "Magnetocardiogram Sensor",
           category: "Research / Biomedical Hardware",
-          summary: "Prototype hardware and iteration work for wearable magnetic sensing and signal acquisition.",
-          tags: ["Research", "Analog", "Prototyping"],
-          pdf: "appa.pdf"
+          summary: "A 3D-printed sensor housing a coil array to measure the heart's biomagnetic signals non-invasively",
+          tags: ["3D Printing", "Fusion360"],
+          pdf: "mcg3.png",
+          image: "mcg_sensor.jpg"
         },
         {
-          id: "tetris-makeathon",
-          title: "Ultrasonic Tetris",
-          category: "Interactive Systems",
-          summary: "Game interaction demo using custom sensor inputs and physical controls.",
-          tags: ["ESP32", "Game Design", "Sensors"],
-          pdf: ""
+          title: "Time of Flight Sensor",
+          category: "Sensors",
+          summary: "An ESP32 shield using a VL53L0X IR sensor to enable wireless distance tracking for appliance testing",
+          tags: ["ESP32", "IR Sensors", "Cadence Allegro"],
+          pdf: "",
+          image: "tof.jpg"
+        },
+        {
+          title: "MCG Signal Filtering Program",
+          category: "Digital Signal Processing",
+          summary: "A MATLAB program that uses Empirical Mode Decomposition to average noisy signals into one clear frame",
+          tags: ["MATLAB", "Data Analysis", "Signal Processing"],
+          pdf: "",
+          image: "filter1.png"
+        },
+        {
+          title: "Assistive Device for Push Strollers",
+          category: "Mechanical Design",
+          summary: "An adaptable stroller attachment designed to ease the physical demands on caregivers",
+          tags: ["Fusion360", "Prototyping", "Manufacturing"],
+          pdf: "",
+          image: "stroller.jpg"
+        },  
+        {
+          title: "APPA",
+          category: "Robotics / Mechatronics",
+          summary: "A 15lb combat robot with a 3.2lb vertical spinner weapon carrying a tip speed of 120mph",
+          tags: ["Robotics", "Fusion360", "Manufacturing"],
+          pdf: "appa.pdf",
+          image: "appa.jpg"
+        },
+        {
+          title: "Chickens vs. Zombies",
+          category: "Software",
+          summary: "Plants vs. Zombies inspired game programmed in MATLAB, First Year Engineering Project",
+          tags: ["MATLAB", "Game Design"],
+          pdf: "",
+          image: "cvz2.png"
+        },            
+        {
+          title: "Birthday Binary Counter",
+          category: "Digital Logic Design",
+          summary: "Switches counting up in binary using logic gates to display birth date on seven segment display",
+          tags: ["Digital Logic", "Breadboarding", "Logic Gates"],
+          pdf: "birthday2.jpg",
+          image: "birthday1.jpg"
+        },     
+        {
+          title: "2 Player Snake Game",
+          category: "Embedded Systems / Gaming",
+          summary: "Inspired by the game Tron, game controlled using joysticks and Arduino",
+          tags: ["Arduino", "Python"],
+          pdf: "",
+          image: "tron.png"
         }
       ];
 
@@ -1320,6 +1429,7 @@
       const homeCarouselDots = document.getElementById("homeCarouselDots");
       const homeCarouselPrev = document.getElementById("homeCarouselPrev");
       const homeCarouselNext = document.getElementById("homeCarouselNext");
+      const expCarouselContainer = document.getElementById("expCarouselContainer");
 
       let homeCarouselIndex = 0;
       let homeCarouselInterval = null;
@@ -1375,9 +1485,7 @@
 
       function renderExperience() {
         timeline.innerHTML = experiences.map((block) => {
-          // Identify common title and location for the header
           const firstEntry = block.blockEntries[0];
-          
           return `
           <article class="timeline-item">
             <div class="timeline-card">
@@ -1400,6 +1508,12 @@
             </div>
           </article>
         `}).join("");
+
+        if (experienceImages.length) {
+            expCarouselContainer.innerHTML = experienceImages.map((src) => 
+                `<img src="${src}" class="exp-carousel-img" alt="Experience photo">`
+            ).join("");
+        }
       }
 
       function openModal(project) {
@@ -1434,16 +1548,22 @@
           const el = document.createElement(hasPdf ? "button" : "div");
           el.className = "project-card";
           el.innerHTML = `
-            <div class="project-top">
-              <div>
-                <div class="project-category">${project.category}</div>
-                <h3 style="margin-top:10px;">${project.title}</h3>
-              </div>
+            <div class="project-card-content">
+                ${hasPdf ? `<div class="attachment-icon" title="View Attachment">
+                    <iconify-icon icon="lucide:file-text"></iconify-icon>
+                </div>` : ''}
+                <div class="project-top">
+                <div>
+                    <div class="project-category">${project.category}</div>
+                    <h3 style="margin-top:10px;">${project.title}</h3>
+                </div>
+                </div>
+                <p style="margin-top:16px; font-size: 0.94rem;">${project.summary}</p>
+                <div class="project-tags">
+                ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+                </div>
             </div>
-            <p style="margin-top:16px;">${project.summary}</p>
-            <div class="project-tags">
-              ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-            </div>
+            <img class="project-card-image" src="${project.image || 'https://placehold.co/600x400/0f766e/ffffff?text=No+Image'}" alt="${project.title}">
           `;
           if (hasPdf) {
             el.addEventListener("click", () => openModal(project));
@@ -1489,68 +1609,6 @@
         }, 4200);
       }
 
-      function renderHomeProjectsCarousel() {
-        if (!projects.length) return;
-
-        homeProjectsTrack.innerHTML = projects.map((project, index) => {
-          const hasPdf = project.pdf && project.pdf.trim() !== "";
-          return `
-            <div class="home-carousel-slide">
-              <div class="home-slide-meta">
-                <div>
-                  <div class="home-slide-category">${project.category}</div>
-                  <h4>${project.title}</h4>
-                  <p>${project.summary}</p>
-                </div>
-                <div class="home-slide-tags">
-                  ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-                </div>
-              </div>
-              <div class="home-slide-visual">
-                <div class="home-slide-visual-top">
-                  <div class="home-slide-index">Project ${String(index + 1).padStart(2, "0")}</div>
-                  <button class="home-slide-open ${hasPdf ? "" : "hidden"}" data-open-home-project="${index}" aria-label="Open project PDF">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                      <path d="M7 17 17 7"/><path d="M8 7h9v9"/>
-                    </svg>
-                  </button>
-                </div>
-                <div class="home-slide-visual-bottom">
-                  <div class="home-slide-mini-grid">
-                    <div class="home-slide-mini"></div><div class="home-slide-mini"></div>
-                    <div class="home-slide-mini"></div><div class="home-slide-mini"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join("");
-
-        homeCarouselDots.innerHTML = projects.map((_, index) => {
-          return `<button class="home-carousel-dot ${index === 0 ? "active" : ""}" data-home-dot="${index}"></button>`;
-        }).join("");
-
-        document.querySelectorAll("[data-home-dot]").forEach((dot) => {
-          dot.addEventListener("click", () => {
-            goToHomeProject(Number(dot.dataset.homeDot));
-            startHomeCarouselAutoPlay();
-          });
-        });
-
-        document.querySelectorAll("[data-open-home-project]").forEach((btn) => {
-          btn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const project = projects[Number(btn.dataset.openHomeProject)];
-            if (project && project.pdf) openModal(project);
-          });
-        });
-
-        homeCarouselPrev.addEventListener("click", () => { goToHomeProject(homeCarouselIndex - 1); startHomeCarouselAutoPlay(); });
-        homeCarouselNext.addEventListener("click", () => { goToHomeProject(homeCarouselIndex + 1); startHomeCarouselAutoPlay(); });
-
-        startHomeCarouselAutoPlay();
-      }
-
       function setupResume() {
         if (resumePdf) {
           resumeFrame.src = resumePdf;
@@ -1562,7 +1620,6 @@
       renderExperience();
       renderProjects();
       renderGallery();
-      renderHomeProjectsCarousel();
       setupResume();
 
       const initialPage = (location.hash || "#home").replace("#", "");
