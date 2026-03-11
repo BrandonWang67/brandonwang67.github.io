@@ -3,17 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brandon Portfolio</title>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <title>Brandon Wang's Portfolio</title>
+    
     <style>
       :root {
         --bg: #f6f6f4;
-        --bg-elev: rgba(255, 255, 255, 0.8);
+        --bg-elev: rgba(255, 255, 255, 0.82);
         --card: #ffffff;
         --text: #111111;
         --muted: #666666;
         --line: rgba(0, 0, 0, 0.1);
-        --pill: #111111;
+        --pill: #0f766e;
         --pill-text: #ffffff;
+        --accent: #0f766e;
+        --accent-soft: rgba(15, 118, 110, 0.12);
+        --accent-soft-2: rgba(20, 184, 166, 0.18);
         --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
       }
 
@@ -24,8 +29,11 @@
         --text: #f4f4f4;
         --muted: #b0b0b0;
         --line: rgba(255, 255, 255, 0.1);
-        --pill: #f4f4f4;
-        --pill-text: #111111;
+        --pill: #14b8a6;
+        --pill-text: #071716;
+        --accent: #2dd4bf;
+        --accent-soft: rgba(45, 212, 191, 0.14);
+        --accent-soft-2: rgba(45, 212, 191, 0.22);
         --shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
       }
 
@@ -125,7 +133,8 @@
       .primary-btn,
       .secondary-btn,
       .tag,
-      .mobile-nav-btn {
+      .mobile-nav-btn,
+      .carousel-arrow {
         transition: 0.22s ease;
       }
 
@@ -144,13 +153,15 @@
       .mobile-nav-btn:hover,
       .theme-toggle:hover,
       .icon-link:hover,
-      .secondary-btn:hover {
+      .secondary-btn:hover,
+      .carousel-arrow:hover {
         transform: translateY(-1px);
       }
 
       .icon-link,
       .theme-toggle,
-      .mobile-menu-toggle {
+      .mobile-menu-toggle,
+      .carousel-arrow {
         width: 44px;
         height: 44px;
         display: inline-flex;
@@ -160,6 +171,14 @@
         border: 1px solid var(--line);
         background: var(--bg-elev);
         box-shadow: var(--shadow);
+      }
+
+      .icon-link:hover,
+      .theme-toggle:hover,
+      .mobile-menu-toggle:hover,
+      .carousel-arrow:hover {
+        border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+        box-shadow: 0 12px 30px rgba(15, 118, 110, 0.12);
       }
 
       .theme-toggle {
@@ -201,11 +220,21 @@
         color: var(--muted);
       }
 
+    .home-showcase {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    /* Removed border, background, padding, and box-shadow */
+    }
+
+    html.dark .home-showcase {
+    background: none; /* Removes the dark mode gradient background */
+    }
+
       .grid-home {
         display: grid;
         grid-template-columns: 0.78fr 1.22fr;
         gap: 24px;
-        margin-top: 24px;
         align-items: stretch;
       }
 
@@ -215,7 +244,9 @@
       .timeline-card,
       .project-card,
       .helper-card,
-      .headshot-card {
+      .headshot-card,
+      .home-projects-card,
+      .home-carousel-slide {
         border: 1px solid var(--line);
         background: var(--card);
         box-shadow: var(--shadow);
@@ -224,7 +255,8 @@
       .hero {
         border-radius: 34px;
         padding: 42px;
-        background: linear-gradient(135deg, color-mix(in srgb, var(--card) 88%, white), color-mix(in srgb, var(--bg) 96%, black 2%));
+        background:
+          linear-gradient(135deg, color-mix(in srgb, var(--card) 90%, white), color-mix(in srgb, var(--bg) 96%, black 2%));
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -261,11 +293,13 @@
       .primary-btn {
         background: var(--pill);
         color: var(--pill-text);
+        box-shadow: 0 10px 26px rgba(15, 118, 110, 0.22);
       }
 
       .secondary-btn {
-        border: 1px solid var(--line);
-        background: var(--bg-elev);
+        border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+        background: color-mix(in srgb, var(--accent) 8%, var(--bg-elev));
+        color: var(--text);
       }
 
       .headshot-card {
@@ -276,7 +310,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, color-mix(in srgb, var(--card) 90%, white), color-mix(in srgb, var(--bg) 97%, black 3%));
+        background:
+          linear-gradient(135deg, color-mix(in srgb, var(--card) 90%, white), color-mix(in srgb, var(--bg) 97%, black 3%));
       }
 
       .headshot-image {
@@ -300,12 +335,12 @@
         width: 120px;
         height: 120px;
         border-radius: 999px;
-        border: 1px dashed var(--line);
+        border: 1px dashed color-mix(in srgb, var(--accent) 38%, var(--line));
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 2rem;
-        background: var(--bg-elev);
+        background: color-mix(in srgb, var(--accent) 8%, var(--bg-elev));
       }
 
       .card {
@@ -326,6 +361,185 @@
       .helper-card {
         color: var(--muted);
         line-height: 1.8;
+      }
+
+      .home-projects-card {
+        margin-top: 24px;
+        border-radius: 34px;
+        padding: 26px;
+        background:
+          linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, white), color-mix(in srgb, var(--card) 98%, transparent));
+      }
+
+      .home-projects-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .home-projects-title-wrap h3 {
+        margin: 0;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        letter-spacing: -0.03em;
+      }
+
+      .home-projects-title-wrap p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .home-carousel-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .home-projects-viewport {
+        overflow: hidden;
+        border-radius: 28px;
+      }
+
+      .home-projects-track {
+        display: flex;
+        transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+      }
+
+      .home-carousel-slide {
+        min-width: 100%;
+        border-radius: 28px;
+        padding: 24px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 22px;
+        background:
+          linear-gradient(135deg, color-mix(in srgb, var(--accent) 7%, var(--card)), color-mix(in srgb, var(--card) 96%, white));
+      }
+
+      .home-slide-meta {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .home-slide-category {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .home-slide-meta h4 {
+        margin: 14px 0 0;
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        letter-spacing: -0.04em;
+      }
+
+      .home-slide-meta p {
+        margin: 14px 0 0;
+        color: var(--muted);
+        line-height: 1.9;
+      }
+
+      .home-slide-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .home-slide-visual {
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 28%, transparent), transparent 42%),
+          linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, var(--card)), color-mix(in srgb, var(--card) 92%, transparent));
+        border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--line));
+        min-height: 260px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .home-slide-visual-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .home-slide-index {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .home-slide-open {
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        color: var(--accent);
+      }
+
+      .home-slide-open.hidden {
+        display: none !important;
+      }
+
+      .home-slide-visual-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .home-slide-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+      }
+
+      .home-slide-mini {
+        min-height: 72px;
+        border-radius: 18px;
+        background: color-mix(in srgb, var(--accent) 8%, var(--bg-elev));
+        border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--line));
+      }
+
+      .home-carousel-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .home-carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--accent) 22%, var(--line));
+      }
+
+      .home-carousel-dot.active {
+        width: 28px;
+        background: var(--accent);
       }
 
       .resume-frame {
@@ -478,59 +692,51 @@
         align-items: center;
         padding: 8px 12px;
         border-radius: 999px;
-        border: 1px solid var(--line);
-        background: color-mix(in srgb, var(--card) 92%, transparent);
-        color: var(--muted);
+        border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+        background: color-mix(in srgb, var(--accent) 7%, var(--card));
+        color: color-mix(in srgb, var(--accent) 80%, var(--text));
         font-size: 0.78rem;
       }
 
       .helper-card {
         margin-top: 24px;
-        border: 1px dashed var(--line);
+        border: 1px dashed color-mix(in srgb, var(--accent) 24%, var(--line));
         border-radius: 28px;
         padding: 18px 20px;
-        background: var(--bg-elev);
+        background: color-mix(in srgb, var(--accent) 6%, var(--bg-elev));
       }
 
       .helper-card code {
-        background: color-mix(in srgb, var(--card) 88%, transparent);
+        background: color-mix(in srgb, var(--accent) 6%, var(--card));
         padding: 2px 7px;
         border-radius: 8px;
-        border: 1px solid var(--line);
+        border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
       }
 
       .gallery {
-        column-count: 3;
-        column-gap: 22px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr)); /* Changed to 3 columns */
+        gap: 26px;
         margin-top: 28px;
+        align-items: start;
       }
 
       .gallery-item {
-        break-inside: avoid;
-        margin-bottom: 22px;
+        margin: 0;
         border-radius: 30px;
         overflow: hidden;
         border: 1px solid var(--line);
         background: var(--card);
         box-shadow: var(--shadow);
-        cursor: zoom-in;
+        cursor: default;
         -webkit-tap-highlight-color: transparent;
+        align-self: start;
       }
 
       .gallery-item img {
         width: 100%;
         height: auto;
         display: block;
-        transition: transform 0.4s ease, filter 0.4s ease;
-        will-change: transform;
-      }
-
-      .gallery-item:hover img {
-        transform: scale(1.03);
-      }
-
-      .gallery-item:active img {
-        transform: scale(1.01);
       }
 
       .gallery-item figcaption {
@@ -589,109 +795,6 @@
         border: 0;
       }
 
-      .image-lightbox {
-        position: fixed;
-        inset: 0;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.92);
-        z-index: 120;
-        padding: 20px;
-        opacity: 0;
-        transition: opacity 0.28s ease;
-      }
-
-      .image-lightbox.open {
-        display: flex;
-        opacity: 1;
-      }
-
-      .lightbox-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .lightbox-image {
-        max-width: 94vw;
-        max-height: 90vh;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        border-radius: 18px;
-        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
-        transform: scale(0.96);
-        opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-      }
-
-      .image-lightbox.open .lightbox-image {
-        transform: scale(1);
-        opacity: 1;
-      }
-
-      .lightbox-close,
-      .lightbox-prev,
-      .lightbox-next {
-        position: absolute;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.08);
-        color: white;
-        backdrop-filter: blur(10px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 2;
-      }
-
-      .lightbox-close {
-        top: 16px;
-        right: 16px;
-        width: 48px;
-        height: 48px;
-        border-radius: 999px;
-        font-size: 1.35rem;
-      }
-
-      .lightbox-prev,
-      .lightbox-next {
-        top: 50%;
-        transform: translateY(-50%);
-        width: 52px;
-        height: 52px;
-        border-radius: 999px;
-        font-size: 1.5rem;
-      }
-
-      .lightbox-prev {
-        left: 16px;
-      }
-
-      .lightbox-next {
-        right: 16px;
-      }
-
-      .lightbox-caption {
-        position: absolute;
-        left: 50%;
-        bottom: 18px;
-        transform: translateX(-50%);
-        color: white;
-        background: rgba(0, 0, 0, 0.35);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(8px);
-        padding: 10px 16px;
-        border-radius: 999px;
-        font-size: 0.95rem;
-        max-width: 90vw;
-        text-align: center;
-      }
-
       .hidden {
         display: none !important;
       }
@@ -703,7 +806,7 @@
         }
 
         .gallery {
-          column-count: 2;
+          grid-template-columns: repeat(2, minmax(0, 1fr)); /* Scales to 2 columns on tablets */
         }
       }
 
@@ -756,7 +859,8 @@
         }
 
         .grid-home,
-        .projects-grid {
+        .projects-grid,
+        .home-carousel-slide {
           grid-template-columns: 1fr;
         }
 
@@ -770,56 +874,19 @@
 
         .timeline-meta,
         .resume-top,
-        .modal-top {
+        .modal-top,
+        .home-projects-header {
           flex-direction: column;
           align-items: flex-start;
         }
 
         .gallery {
-          column-count: 2;
-          column-gap: 16px;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 16px;
         }
 
         .gallery-item {
-          margin-bottom: 16px;
           border-radius: 22px;
-        }
-
-        .gallery-item:hover img {
-          transform: none;
-        }
-
-        .lightbox-image {
-          max-width: 100vw;
-          max-height: 82vh;
-          border-radius: 12px;
-        }
-
-        .lightbox-prev,
-        .lightbox-next {
-          width: 46px;
-          height: 46px;
-        }
-
-        .lightbox-prev {
-          left: 10px;
-        }
-
-        .lightbox-next {
-          right: 10px;
-        }
-
-        .lightbox-close {
-          top: 10px;
-          right: 10px;
-          width: 44px;
-          height: 44px;
-        }
-
-        .lightbox-caption {
-          bottom: 12px;
-          font-size: 0.88rem;
-          padding: 8px 12px;
         }
       }
 
@@ -829,7 +896,7 @@
         }
 
         .gallery {
-          column-count: 1;
+          grid-template-columns: 1fr; /* Scales to 1 column on mobile */
         }
 
         .hero h1 {
@@ -844,19 +911,24 @@
           min-height: 320px;
         }
 
-        .lightbox-prev,
-        .lightbox-next {
-          top: auto;
-          bottom: 70px;
-          transform: none;
+        .home-showcase {
+          padding: 14px;
+          border-radius: 28px;
         }
 
-        .lightbox-prev {
-          left: calc(50% - 58px);
+        .home-projects-card {
+          padding: 18px;
+          border-radius: 24px;
         }
 
-        .lightbox-next {
-          right: calc(50% - 58px);
+        .home-carousel-slide {
+          padding: 18px;
+          border-radius: 22px;
+        }
+
+        .carousel-arrow {
+          width: 40px;
+          height: 40px;
         }
       }
     </style>
@@ -880,31 +952,28 @@
             </nav>
 
             <div class="desktop-actions">
-              <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                  <rect x="2" y="9" width="4" height="12"/>
-                  <circle cx="4" cy="4" r="2"/>
-                </svg>
-              </a>
+            <div class="social-links" style="display: flex; gap: 10px;">
+                <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <iconify-icon icon="lucide:linkedin" width="20" height="20"></iconify-icon>
+                </a>
 
-              <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16v16H4z"/>
-                  <path d="m22 6-10 7L2 6"/>
-                </svg>
-            </a>
+                <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">
+                <iconify-icon icon="lucide:mail" width="20" height="20"></iconify-icon>
+                </a>
 
-              <a class="icon-link" href="https://www.strava.com/athletes/YOUR-ID" target="_blank" rel="noreferrer" aria-label="Strava">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M10.63 2 5.34 12.26h3.12L10.63 8l2.17 4.26h3.13L10.63 2Zm5.14 9.22-4.23 8.16h2.76l1.47-2.84 1.47 2.84H20l-4.23-8.16Z"/>
-                </svg>
-              </a>
+                <a class="icon-link" href="tel:+15136232258" aria-label="Phone">
+                <iconify-icon icon="lucide:phone" width="20" height="20"></iconify-icon>
+                </a>
 
-              <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <span class="theme-dot" id="themeIcon">☾</span>
+                <a class="icon-link" href="https://www.strava.com/athletes/YOUR-ID" target="_blank" rel="noreferrer" aria-label="Strava">
+                <iconify-icon icon="simple-icons:strava" width="20" height="20"></iconify-icon>
+                </a>
+            </div>
+
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <iconify-icon id="themeIcon" icon="lucide:moon" width="18" height="18"></iconify-icon>
                 <span id="themeLabel">Dark mode</span>
-              </button>
+            </button>
             </div>
 
             <div class="mobile-controls">
@@ -932,9 +1001,9 @@
             </div>
 
             <div class="mobile-contact-row">
-              <a class="icon-link" href="https://www.linkedin.com/in/YOUR-LINKEDIN/" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a>
-              <a class="icon-link" href="mailto:yourname@email.com" aria-label="Email">@</a>
-              <a class="icon-link" href="tel:+11234567890" aria-label="Phone">☎</a>
+              <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a>
+              <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">@</a>
+              <a class="icon-link" href="tel:+15136232258" aria-label="Phone">☎</a>
               <a class="icon-link" href="https://www.strava.com/athletes/YOUR-ID" target="_blank" rel="noreferrer" aria-label="Strava">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M10.63 2 5.34 12.26h3.12L10.63 8l2.17 4.26h3.13L10.63 2Zm5.14 9.22-4.23 8.16h2.76l1.47-2.84 1.47 2.84H20l-4.23-8.16Z"/>
@@ -947,43 +1016,66 @@
 
       <main class="container">
         <section class="section page" id="home">
-          <h2>Home.</h2>
+          <div class="home-showcase" id="homeShowcase">
+            <div class="grid-home">
+              <div class="headshot-card">
+                <img id="headshotImageEl" class="headshot-image hidden" src="" alt="Brandon Wang headshot" />
+                <div id="headshotPlaceholderEl" class="headshot-placeholder">
+                  <div class="headshot-placeholder-circle">👤</div>
+                  <div>
+                    <strong style="display:block; color: var(--text); margin-bottom: 6px;">Headshot Placeholder</strong>
+                    Add your image file path in the <code>headshotImage</code> variable.
+                  </div>
+                </div>
+              </div>
 
-          <div class="grid-home">
-            <div class="headshot-card">
-              <!-- Replace this placeholder with your real image by setting headshotImage below -->
-              <img id="headshotImageEl" class="headshot-image hidden" src="" alt="Brandon Wang headshot" />
-              <div id="headshotPlaceholderEl" class="headshot-placeholder">
-                <div class="headshot-placeholder-circle">👤</div>
-                <div>
-                  <strong style="display:block; color: var(--text); margin-bottom: 6px;">Headshot Placeholder</strong>
-                  Add your image file path in the <code>headshotImage</code> variable.
+              <div class="hero">
+                <h2>Aspiring Electrical Engineer, Innovator</h2>
+                <p>
+                  I’m a junior Electrical Engineering student at The Ohio State University passionate about building innovative hardware that connects technology with real human impact. As a hands-on, project-driven engineer, I focus on sensors, embedded electronics, prototyping, and research-driven design while tackling challenging problems and turning ideas into working systems.
+                </p>
+                <p>
+                  Dive in and explore my technical work and projects, all in one place.
+                </p>
+                <div class="hero-actions">
+                  <button class="primary-btn" data-page="projects">View Projects</button>
+                  <button class="secondary-btn" data-page="resume">Open Resume</button>
                 </div>
               </div>
             </div>
 
-            <div class="hero">
-              <h2>Electrical Engineer, Innovator, Builder.</h2>
-              <p>
-                I’m a junior Electrical Engineering student at The Ohio State University
-                passionate about building innovative hardware that connects technology with real
-                human impact. As a hands-on, project-driven engineer, I focus on sensors,
-                embedded electronics, prototyping, and research-driven design while tackling
-                challenging problems and turning ideas into working systems.
-              </p>
-              <p>
-                Explore my technical work, experience, resume, and photography all in one place.
-              </p>
-              <div class="hero-actions">
-                <button class="primary-btn" data-page="projects">View Projects</button>
-                <button class="secondary-btn" data-page="resume">Open Resume</button>
+            <div class="home-projects-card">
+              <div class="home-projects-header">
+                <div class="home-projects-title-wrap">
+                  <div class="eyebrow" style="color: var(--accent);">Projects Showcase</div>
+
+                </div>
+
+                <div class="home-carousel-controls">
+                  <button class="carousel-arrow" id="homeCarouselPrev" aria-label="Previous project">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                  </button>
+                  <button class="carousel-arrow" id="homeCarouselNext" aria-label="Next project">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
+
+              <div class="home-projects-viewport">
+                <div class="home-projects-track" id="homeProjectsTrack"></div>
+              </div>
+
+              <div class="home-carousel-dots" id="homeCarouselDots"></div>
             </div>
           </div>
         </section>
 
         <section class="section page hidden" id="resume">
-          <h2>Resume.</h2>
+          <h2>Resume</h2>
           <p class="section-subtitle"></p>
 
           <div class="resume-frame">
@@ -996,19 +1088,15 @@
         </section>
 
         <section class="section page hidden" id="experience">
-          <h2>Experience.</h2>
+          <h2>Experience</h2>
           <div class="timeline" id="timeline"></div>
         </section>
 
         <section class="section page hidden" id="projects">
-          <h2>Projects.</h2>
+          <h2>Projects</h2>
 
           <div class="projects-grid" id="projectsGrid"></div>
 
-          <div class="helper-card">
-            <strong style="color: var(--text);">How to add a future project:</strong>
-            duplicate one object in the <code>projects</code> array, update the title, summary, tags, and PDF path. That is all.
-          </div>
         </section>
 
         <section class="section page hidden" id="photography">
@@ -1033,21 +1121,13 @@
       </div>
     </div>
 
-    <div class="image-lightbox" id="imageLightbox" aria-hidden="true">
-      <div class="lightbox-inner">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">✕</button>
-        <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
-        <img class="lightbox-image" id="lightboxImage" src="" alt="" />
-        <button class="lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
-        <div class="lightbox-caption" id="lightboxCaption"></div>
-      </div>
-    </div>
-
     <script>
       const resumePdf = "BrandonWang_Resume.pdf";
 
       // Add your headshot path here, for example: "headshot.jpg"
       const headshotImage = "headshot1.jpg";
+
+      // Home background image removed as requested
 
       const experiences = [
         {
@@ -1114,7 +1194,6 @@
 
       const photos = [
         "Photography/20260101_132336.jpg",
-        "Photography/DSCF0011~2.JPG",
         "Photography/PXL_20251227_142724057.MP.jpg",
         "Photography/PXL_20251227_232556252.jpg",
         "Photography/PXL_20251227_233413796.jpg",
@@ -1141,7 +1220,8 @@
         "Photography/PXL_20260103_220101420.jpg",
         "Photography/PXL_20260104_040714755.jpg",
         "Photography/PXL_20260105_012638916.jpg",
-        "Photography/PXL_20260106_032021037.jpg"
+        "Photography/PXL_20260106_032021037.jpg",
+        "Photography/DSCF0011~2.JPG"
       ];
 
       const pages = [...document.querySelectorAll(".page")];
@@ -1165,29 +1245,27 @@
       const modalCategory = document.getElementById("modalCategory");
       const modalSummary = document.getElementById("modalSummary");
       const modalFrame = document.getElementById("modalFrame");
-
-      const imageLightbox = document.getElementById("imageLightbox");
-      const lightboxImage = document.getElementById("lightboxImage");
-      const lightboxCaption = document.getElementById("lightboxCaption");
-      const lightboxClose = document.getElementById("lightboxClose");
-      const lightboxPrev = document.getElementById("lightboxPrev");
-      const lightboxNext = document.getElementById("lightboxNext");
-
       const headshotImageEl = document.getElementById("headshotImageEl");
       const headshotPlaceholderEl = document.getElementById("headshotPlaceholderEl");
+      const homeShowcase = document.getElementById("homeShowcase");
+      const homeProjectsTrack = document.getElementById("homeProjectsTrack");
+      const homeCarouselDots = document.getElementById("homeCarouselDots");
+      const homeCarouselPrev = document.getElementById("homeCarouselPrev");
+      const homeCarouselNext = document.getElementById("homeCarouselNext");
 
-      let currentPhotoIndex = 0;
-      let touchStartX = 0;
-      let touchEndX = 0;
+      let homeCarouselIndex = 0;
+      let homeCarouselInterval = null;
 
-      function setTheme(mode) {
-        htmlEl.classList.toggle("dark", mode === "dark");
-        localStorage.setItem("portfolio-theme", mode);
-        const dark = mode === "dark";
-        themeLabel.textContent = dark ? "Light mode" : "Dark mode";
-        themeIcon.textContent = dark ? "☀" : "☾";
-        themeIconMobile.textContent = dark ? "☀" : "☾";
-      }
+        function setTheme(mode) {
+            htmlEl.classList.toggle("dark", mode === "dark");
+            localStorage.setItem("portfolio-theme", mode);
+            const dark = mode === "dark";
+            themeLabel.textContent = dark ? "Light mode" : "Dark mode";
+            
+            // Update iconify icons
+            themeIcon.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
+            themeIconMobile.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
+        }
 
       const savedTheme = localStorage.getItem("portfolio-theme") || "light";
       setTheme(savedTheme);
@@ -1267,75 +1345,13 @@
         modalFrame.src = "";
       }
 
-      function getPhotoName(src, index) {
-        return src.split("/").pop().replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") || `Photo ${index + 1}`;
-      }
-
-      function openLightbox(index) {
-        currentPhotoIndex = index;
-        lightboxImage.src = photos[index];
-        lightboxImage.alt = getPhotoName(photos[index], index);
-        lightboxCaption.textContent = getPhotoName(photos[index], index);
-        imageLightbox.classList.add("open");
-        imageLightbox.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeLightbox() {
-        imageLightbox.classList.remove("open");
-        imageLightbox.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-      }
-
-      function showPrevPhoto() {
-        currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
-        openLightbox(currentPhotoIndex);
-      }
-
-      function showNextPhoto() {
-        currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
-        openLightbox(currentPhotoIndex);
-      }
-
       modalClose.addEventListener("click", closeModal);
       modal.addEventListener("click", (e) => {
         if (e.target === modal) closeModal();
       });
 
-      lightboxClose.addEventListener("click", closeLightbox);
-      lightboxPrev.addEventListener("click", showPrevPhoto);
-      lightboxNext.addEventListener("click", showNextPhoto);
-
-      imageLightbox.addEventListener("click", (e) => {
-        if (e.target === imageLightbox || e.target.classList.contains("lightbox-inner")) {
-          closeLightbox();
-        }
-      });
-
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeModal();
-
-        if (!imageLightbox.classList.contains("open")) return;
-        if (e.key === "Escape") closeLightbox();
-        if (e.key === "ArrowLeft") showPrevPhoto();
-        if (e.key === "ArrowRight") showNextPhoto();
-      });
-
-      imageLightbox.addEventListener("touchstart", (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      });
-
-      imageLightbox.addEventListener("touchend", (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        const swipeDistance = touchEndX - touchStartX;
-
-        if (Math.abs(swipeDistance) > 50) {
-          if (swipeDistance > 0) {
-            showPrevPhoto();
-          } else {
-            showNextPhoto();
-          }
-        }
       });
 
       function renderProjects() {
@@ -1374,19 +1390,115 @@
         galleryEmpty.classList.add("hidden");
 
         gallery.innerHTML = photos.map((src, index) => {
-          const name = getPhotoName(src, index);
+          const name = src.split("/").pop().replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") || `Photo ${index + 1}`;
           return `
-            <figure class="gallery-item" data-photo-index="${index}">
+            <figure class="gallery-item">
               <img src="${src}" alt="${name}" loading="lazy" />
             </figure>
           `;
         }).join("");
+      }
 
-        document.querySelectorAll(".gallery-item").forEach((item) => {
-          item.addEventListener("click", () => {
-            openLightbox(Number(item.dataset.photoIndex));
+      function goToHomeProject(index) {
+        if (!projects.length) return;
+        homeCarouselIndex = (index + projects.length) % projects.length;
+        homeProjectsTrack.style.transform = `translateX(-${homeCarouselIndex * 100}%)`;
+
+        [...homeCarouselDots.children].forEach((dot, dotIndex) => {
+          dot.classList.toggle("active", dotIndex === homeCarouselIndex);
+        });
+      }
+
+      function startHomeCarouselAutoPlay() {
+        clearInterval(homeCarouselInterval);
+        if (projects.length <= 1) return;
+        homeCarouselInterval = setInterval(() => {
+          goToHomeProject(homeCarouselIndex + 1);
+        }, 4200);
+      }
+
+      function renderHomeProjectsCarousel() {
+        if (!projects.length) {
+          homeProjectsTrack.innerHTML = "";
+          homeCarouselDots.innerHTML = "";
+          return;
+        }
+
+        homeProjectsTrack.innerHTML = projects.map((project, index) => {
+          const hasPdf = project.pdf && project.pdf.trim() !== "";
+          return `
+            <div class="home-carousel-slide" data-home-project-index="${index}">
+              <div class="home-slide-meta">
+                <div>
+                  <div class="home-slide-category">${project.category}</div>
+                  <h4>${project.title}</h4>
+                  <p>${project.summary}</p>
+                </div>
+
+                <div class="home-slide-tags">
+                  ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+                </div>
+              </div>
+
+              <div class="home-slide-visual">
+                <div class="home-slide-visual-top">
+                  <div class="home-slide-index">Project ${String(index + 1).padStart(2, "0")}</div>
+                  <button class="home-slide-open ${hasPdf ? "" : "hidden"}" data-open-home-project="${index}" aria-label="Open project PDF">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path d="M7 17 17 7"/>
+                      <path d="M8 7h9v9"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="home-slide-visual-bottom">
+                  <div class="home-slide-mini-grid">
+                    <div class="home-slide-mini"></div>
+                    <div class="home-slide-mini"></div>
+                    <div class="home-slide-mini"></div>
+                    <div class="home-slide-mini"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        homeCarouselDots.innerHTML = projects.map((_, index) => {
+          return `<button class="home-carousel-dot ${index === 0 ? "active" : ""}" data-home-dot="${index}" aria-label="Go to project ${index + 1}"></button>`;
+        }).join("");
+
+        document.querySelectorAll("[data-home-dot]").forEach((dot) => {
+          dot.addEventListener("click", () => {
+            goToHomeProject(Number(dot.dataset.homeDot));
+            startHomeCarouselAutoPlay();
           });
         });
+
+        document.querySelectorAll("[data-open-home-project]").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const projectIndex = Number(btn.dataset.openHomeProject);
+            const project = projects[projectIndex];
+            if (project && project.pdf) openModal(project);
+          });
+        });
+
+        homeProjectsTrack.addEventListener("mouseenter", () => clearInterval(homeCarouselInterval));
+        homeProjectsTrack.addEventListener("mouseleave", startHomeCarouselAutoPlay);
+
+        homeCarouselPrev.addEventListener("click", () => {
+          goToHomeProject(homeCarouselIndex - 1);
+          startHomeCarouselAutoPlay();
+        });
+
+        homeCarouselNext.addEventListener("click", () => {
+          goToHomeProject(homeCarouselIndex + 1);
+          startHomeCarouselAutoPlay();
+        });
+
+        goToHomeProject(0);
+        startHomeCarouselAutoPlay();
       }
 
       function setupResume() {
@@ -1407,6 +1519,7 @@
       renderExperience();
       renderProjects();
       renderGallery();
+      renderHomeProjectsCarousel();
       setupResume();
 
       const initialPage = (location.hash || "#home").replace("#", "");
