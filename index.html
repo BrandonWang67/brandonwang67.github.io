@@ -224,11 +224,10 @@
     position: relative;
     overflow: hidden;
     margin-top: 20px;
-    /* Removed border, background, padding, and box-shadow */
     }
 
     html.dark .home-showcase {
-    background: none; /* Removes the dark mode gradient background */
+    background: none;
     }
 
       .grid-home {
@@ -589,7 +588,7 @@
       .timeline-item {
         position: relative;
         padding-left: 28px;
-        margin-bottom: 18px;
+        margin-bottom: 24px;
       }
 
       .timeline-item::before {
@@ -606,29 +605,51 @@
 
       .timeline-card {
         border-radius: 28px;
-        padding: 24px;
+        padding: 28px;
       }
 
-      .timeline-meta {
+      .experience-entry:not(:first-child) {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px dashed var(--line);
+      }
+
+      /* Specific Layout Classes */
+      .timeline-header {
         display: flex;
-        align-items: flex-start;
         justify-content: space-between;
-        gap: 16px;
+        align-items: flex-end;
+        margin-bottom: 16px;
+      }
+
+      .timeline-subheader {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 4px;
       }
 
       .timeline-role {
-        margin-top: 8px;
-        color: var(--muted);
-        font-weight: 550;
+        margin-top: 0;
+        color: var(--text);
+        font-weight: 600;
       }
 
       .timeline-date {
         color: var(--muted);
         white-space: nowrap;
+        font-weight: 500;
+        font-size: 0.94rem;
+      }
+
+      .timeline-location {
+        font-size: 0.94rem;
+        color: var(--muted);
+        font-weight: 500;
       }
 
       .timeline-list {
-        margin: 16px 0 0;
+        margin: 12px 0 0;
         padding: 0;
         list-style: none;
       }
@@ -636,9 +657,10 @@
       .timeline-list li {
         position: relative;
         padding-left: 16px;
-        margin-top: 10px;
+        margin-top: 8px;
         line-height: 1.8;
         color: var(--muted);
+        font-size: 0.96rem;
       }
 
       .timeline-list li::before {
@@ -715,7 +737,7 @@
 
       .gallery {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr)); /* Changed to 3 columns */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 26px;
         margin-top: 28px;
         align-items: start;
@@ -806,7 +828,7 @@
         }
 
         .gallery {
-          grid-template-columns: repeat(2, minmax(0, 1fr)); /* Scales to 2 columns on tablets */
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
 
@@ -872,12 +894,18 @@
           min-height: 420px;
         }
 
-        .timeline-meta,
+        .timeline-header,
+        .timeline-subheader,
         .resume-top,
         .modal-top,
         .home-projects-header {
           flex-direction: column;
           align-items: flex-start;
+          gap: 4px;
+        }
+
+        .timeline-location {
+            text-align: left;
         }
 
         .gallery {
@@ -896,7 +924,7 @@
         }
 
         .gallery {
-          grid-template-columns: 1fr; /* Scales to 1 column on mobile */
+          grid-template-columns: 1fr;
         }
 
         .hero h1 {
@@ -1130,38 +1158,80 @@
 
     <script>
       const resumePdf = "BrandonWang_Resume.pdf";
-
-      // Add your headshot path here, for example: "headshot.jpg"
       const headshotImage = "headshot.jpg";
-
-      // Home background image removed as requested
 
       const experiences = [
         {
-          title: "Wearable & Implantable Technology Lab",
-          role: "Undergraduate Researcher",
-          date: "Add dates here",
-          bullets: [
-            "Add 2–4 strong bullets here about your hardware, PCB, sensor, or prototyping work.",
-            "Focus on measurable impact, tools used, and what you designed or improved.",
-            "Keep each bullet concise and resume-style."
+          blockEntries: [
+            {
+              title: "Northrop Grumman",
+              role: "Electrical Engineering Intern",
+              date: "Incoming May 2026",
+              location: "Baltimore, MD",
+              bullets: ["Mission Systems, Airborne Multifunction Sensors"]
+            }
           ]
         },
         {
-          title: "ElectroScience Laboratory",
-          role: "Research / Design Contributor",
-          date: "Add dates here",
-          bullets: [
-            "Describe projects, simulations, measurements, firmware, or test setup work.",
-            "Mention collaboration, papers, poster presentations, or lab responsibilities if relevant."
+          blockEntries: [
+            {
+              title: "Wearable & Implantable Tech. Lab, Electroscience Laboratory",
+              role: "Undergraduate Researcher (Circle)",
+              date: "Aug. 2025 - Present",
+              location: "Columbus, OH",
+              bullets: [
+                "Leading hardware design for a wearable game controller for kids, in collaboration with Nationwide Children's Hospital",
+                "Designing 12MHz transmitter/receiver pair schematic and layout, meeting a 40mm max footprint requirement",
+                "Developing low-latency embedded firmware for the nRF52840 SoC to process real-time analog-to-digital inputs",
+                "Optimized for passband frequency and signal integrity by simulating and characterizing custom Chebyshev filters"
+              ]
+            },
+            {
+              title: "Wearable & Implantable Tech. Lab, Electroscience Laboratory",
+              role: "Undergraduate Researcher (Magnetocardiogram Sensors)",
+              date: "Jan. 2024 - Jan. 2025",
+              location: "Columbus, OH",
+              bullets: [
+                "Simplified MCG testing setup, reducing complexity by 50% and improving the signal-to-noise ratio (SNR) by 10%",
+                "Wrote a signal processing program in MATLAB using EMD algorithm to extract averaged frame from large datasets",
+                "Built a LabVIEW GUI to simultaneously collect and synchronize data from both MCG and electrocardiogram systems",
+                "Created a new coil array housing to boost testing efficiency and enable color customization when testing with children"
+              ]
+            }
           ]
         },
         {
-          title: "Another Experience",
-          role: "Intern / Project Lead / Team Member",
-          date: "Add dates here",
-          bullets: ["Add another experience card here."]
-        }
+          blockEntries: [
+            {
+              title: "GE Appliances",
+              role: "Electrical Engineering Co-op (Dishwashers, NPI)",
+              date: "May 2025 - Aug. 2025",
+              location: "Louisville, KY",
+              bullets: [
+                "Drove long-term design improvements and reliability by conducting root cause analysis (RCA) on 3 unique FRACAS",
+                "Managed over 100+ dishwashers in field tests, ensuring up-to-date software, continuous operation, and test reliability",
+                "Designed a ESP32 shield with VL53L0X IR sensor in Cadence Allegro to transmit distance data with 90% accuracy",
+                "Built a Python automation tool to manage weekly OTA software and health checks, eliminating 95% of manual effort",
+                "Reworked dishwashers in test labs to integrate a new LCD from an alternate manufacturer, ensuring 100% functionality"
+              ]
+
+            },
+            {
+              title: "GE Appliances",
+              role: "Electrical Engineering Co-op (Refrigeration, COQ)",
+              date: "Jan. 2025 - May 2025",
+              location: "Louisville, KY",
+              bullets: [
+                "Used accelerated life testing (ALT) methods to evaluate and compare the long-term reliability of multiple LED models",
+                "Designed test board panels to efficiently compare 5+ different LED color temperatures and its effect on appearance",
+                "Performed ESD and power integrity validation tests using oscilloscopes and DMMs to identify root-cause of failures",
+                "Validated reliability of new ultrasonic sensors by testing performance across varying sensitivity parameters",
+                "Performed in-depth RCA on refrigerator PCBs to identify manufacturing defects and enhance overall quality control"
+              ]
+
+            }            
+          ]
+        },
       ];
 
       const projects = [
@@ -1187,14 +1257,6 @@
           category: "Interactive Systems",
           summary: "Game interaction demo using custom sensor inputs and physical controls.",
           tags: ["ESP32", "Game Design", "Sensors"],
-          pdf: ""
-        },
-        {
-          id: "future-project",
-          title: "Future Project",
-          category: "Coming Soon",
-          summary: "Leave this as a placeholder or delete it. New projects are easy to add here.",
-          tags: ["Concept"],
           pdf: ""
         }
       ];
@@ -1254,7 +1316,6 @@
       const modalFrame = document.getElementById("modalFrame");
       const headshotImageEl = document.getElementById("headshotImageEl");
       const headshotPlaceholderEl = document.getElementById("headshotPlaceholderEl");
-      const homeShowcase = document.getElementById("homeShowcase");
       const homeProjectsTrack = document.getElementById("homeProjectsTrack");
       const homeCarouselDots = document.getElementById("homeCarouselDots");
       const homeCarouselPrev = document.getElementById("homeCarouselPrev");
@@ -1263,16 +1324,14 @@
       let homeCarouselIndex = 0;
       let homeCarouselInterval = null;
 
-        function setTheme(mode) {
-            htmlEl.classList.toggle("dark", mode === "dark");
-            localStorage.setItem("portfolio-theme", mode);
-            const dark = mode === "dark";
-            themeLabel.textContent = dark ? "Light mode" : "Dark mode";
-            
-            // Update iconify icons
-            themeIcon.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
-            themeIconMobile.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
-        }
+      function setTheme(mode) {
+          htmlEl.classList.toggle("dark", mode === "dark");
+          localStorage.setItem("portfolio-theme", mode);
+          const dark = mode === "dark";
+          themeLabel.textContent = dark ? "Light mode" : "Dark mode";
+          themeIcon.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
+          themeIconMobile.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
+      }
 
       const savedTheme = localStorage.getItem("portfolio-theme") || "light";
       setTheme(savedTheme);
@@ -1311,29 +1370,36 @@
           headshotImageEl.src = headshotImage;
           headshotImageEl.classList.remove("hidden");
           headshotPlaceholderEl.classList.add("hidden");
-        } else {
-          headshotImageEl.classList.add("hidden");
-          headshotPlaceholderEl.classList.remove("hidden");
         }
       }
 
       function renderExperience() {
-        timeline.innerHTML = experiences.map((exp) => `
+        timeline.innerHTML = experiences.map((block) => {
+          // Identify common title and location for the header
+          const firstEntry = block.blockEntries[0];
+          
+          return `
           <article class="timeline-item">
             <div class="timeline-card">
-              <div class="timeline-meta">
-                <div>
-                  <h3>${exp.title}</h3>
-                  <div class="timeline-role">${exp.role}</div>
-                </div>
-                <div class="timeline-date">${exp.date}</div>
+              <div class="timeline-header">
+                <h3 style="margin:0;">${firstEntry.title}</h3>
+                <div class="timeline-location">${firstEntry.location}</div>
               </div>
-              <ul class="timeline-list">
-                ${exp.bullets.map((b) => `<li>${b}</li>`).join("")}
-              </ul>
+
+              ${block.blockEntries.map((exp) => `
+                <div class="experience-entry">
+                  <div class="timeline-subheader">
+                    <div class="timeline-role">${exp.role}</div>
+                    <div class="timeline-date">${exp.date}</div>
+                  </div>
+                  <ul class="timeline-list">
+                    ${exp.bullets.map((b) => `<li>${b}</li>`).join("")}
+                  </ul>
+                </div>
+              `).join("")}
             </div>
           </article>
-        `).join("");
+        `}).join("");
       }
 
       function openModal(project) {
@@ -1410,7 +1476,6 @@
         if (!projects.length) return;
         homeCarouselIndex = (index + projects.length) % projects.length;
         homeProjectsTrack.style.transform = `translateX(-${homeCarouselIndex * 100}%)`;
-
         [...homeCarouselDots.children].forEach((dot, dotIndex) => {
           dot.classList.toggle("active", dotIndex === homeCarouselIndex);
         });
@@ -1425,45 +1490,35 @@
       }
 
       function renderHomeProjectsCarousel() {
-        if (!projects.length) {
-          homeProjectsTrack.innerHTML = "";
-          homeCarouselDots.innerHTML = "";
-          return;
-        }
+        if (!projects.length) return;
 
         homeProjectsTrack.innerHTML = projects.map((project, index) => {
           const hasPdf = project.pdf && project.pdf.trim() !== "";
           return `
-            <div class="home-carousel-slide" data-home-project-index="${index}">
+            <div class="home-carousel-slide">
               <div class="home-slide-meta">
                 <div>
                   <div class="home-slide-category">${project.category}</div>
                   <h4>${project.title}</h4>
                   <p>${project.summary}</p>
                 </div>
-
                 <div class="home-slide-tags">
                   ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
                 </div>
               </div>
-
               <div class="home-slide-visual">
                 <div class="home-slide-visual-top">
                   <div class="home-slide-index">Project ${String(index + 1).padStart(2, "0")}</div>
                   <button class="home-slide-open ${hasPdf ? "" : "hidden"}" data-open-home-project="${index}" aria-label="Open project PDF">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                      <path d="M7 17 17 7"/>
-                      <path d="M8 7h9v9"/>
+                      <path d="M7 17 17 7"/><path d="M8 7h9v9"/>
                     </svg>
                   </button>
                 </div>
-
                 <div class="home-slide-visual-bottom">
                   <div class="home-slide-mini-grid">
-                    <div class="home-slide-mini"></div>
-                    <div class="home-slide-mini"></div>
-                    <div class="home-slide-mini"></div>
-                    <div class="home-slide-mini"></div>
+                    <div class="home-slide-mini"></div><div class="home-slide-mini"></div>
+                    <div class="home-slide-mini"></div><div class="home-slide-mini"></div>
                   </div>
                 </div>
               </div>
@@ -1472,7 +1527,7 @@
         }).join("");
 
         homeCarouselDots.innerHTML = projects.map((_, index) => {
-          return `<button class="home-carousel-dot ${index === 0 ? "active" : ""}" data-home-dot="${index}" aria-label="Go to project ${index + 1}"></button>`;
+          return `<button class="home-carousel-dot ${index === 0 ? "active" : ""}" data-home-dot="${index}"></button>`;
         }).join("");
 
         document.querySelectorAll("[data-home-dot]").forEach((dot) => {
@@ -1485,26 +1540,14 @@
         document.querySelectorAll("[data-open-home-project]").forEach((btn) => {
           btn.addEventListener("click", (e) => {
             e.stopPropagation();
-            const projectIndex = Number(btn.dataset.openHomeProject);
-            const project = projects[projectIndex];
+            const project = projects[Number(btn.dataset.openHomeProject)];
             if (project && project.pdf) openModal(project);
           });
         });
 
-        homeProjectsTrack.addEventListener("mouseenter", () => clearInterval(homeCarouselInterval));
-        homeProjectsTrack.addEventListener("mouseleave", startHomeCarouselAutoPlay);
+        homeCarouselPrev.addEventListener("click", () => { goToHomeProject(homeCarouselIndex - 1); startHomeCarouselAutoPlay(); });
+        homeCarouselNext.addEventListener("click", () => { goToHomeProject(homeCarouselIndex + 1); startHomeCarouselAutoPlay(); });
 
-        homeCarouselPrev.addEventListener("click", () => {
-          goToHomeProject(homeCarouselIndex - 1);
-          startHomeCarouselAutoPlay();
-        });
-
-        homeCarouselNext.addEventListener("click", () => {
-          goToHomeProject(homeCarouselIndex + 1);
-          startHomeCarouselAutoPlay();
-        });
-
-        goToHomeProject(0);
         startHomeCarouselAutoPlay();
       }
 
@@ -1512,13 +1555,6 @@
         if (resumePdf) {
           resumeFrame.src = resumePdf;
           resumeLink.href = resumePdf;
-          resumeFrame.classList.remove("hidden");
-          resumeLink.classList.remove("hidden");
-          resumeEmpty.classList.add("hidden");
-        } else {
-          resumeFrame.classList.add("hidden");
-          resumeLink.classList.add("hidden");
-          resumeEmpty.classList.remove("hidden");
         }
       }
 
