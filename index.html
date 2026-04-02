@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
     <title>Brandon Wang's Portfolio</title>
-    
+
     <style>
       :root {
         --bg: #f6f6f4;
@@ -20,6 +23,9 @@
         --accent-soft: rgba(15, 118, 110, 0.12);
         --accent-soft-2: rgba(20, 184, 166, 0.18);
         --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        --mono: 'IBM Plex Mono', monospace;
+        --grid-line: rgba(15, 118, 110, 0.055);
+        --glow: rgba(15, 118, 110, 0.18);
       }
 
       html.dark {
@@ -35,15 +41,13 @@
         --accent-soft: rgba(45, 212, 191, 0.14);
         --accent-soft-2: rgba(45, 212, 191, 0.22);
         --shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+        --grid-line: rgba(45, 212, 191, 0.065);
+        --glow: rgba(45, 212, 191, 0.22);
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
-      html {
-        scroll-behavior: smooth;
-      }
+      html { scroll-behavior: smooth; }
 
       body {
         margin: 0;
@@ -51,38 +55,21 @@
         background: var(--bg);
         color: var(--text);
         transition: background 0.25s ease, color 0.25s ease;
+        background-image:
+          radial-gradient(circle, color-mix(in srgb, var(--accent) 9%, transparent) 1px, transparent 1px);
+        background-size: 28px 28px;
+        background-attachment: fixed;
       }
 
-      img {
-        display: block;
-        max-width: 100%;
-      }
+      img { display: block; max-width: 100%; }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
+      .shell { max-width: 1700px; margin: 0 auto; min-height: 100vh; }
 
-      button {
-        font: inherit;
-        color: inherit;
-        background: none;
-        border: none;
-        cursor: pointer;
-      }
+      .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
-      .shell {
-        max-width: 1700px;
-        margin: 0 auto;
-        min-height: 100vh;
-      }
-
-      .container {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 24px;
-      }
-
+      /* ─── HEADER ─────────────────────────────────────────── */
       .site-header {
         position: sticky;
         top: 0;
@@ -90,6 +77,25 @@
         backdrop-filter: blur(14px);
         background: color-mix(in srgb, var(--bg) 85%, transparent);
         border-bottom: 1px solid var(--line);
+        overflow: hidden;
+      }
+
+      .site-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -100%;
+        right: -100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent) 70%, transparent 100%);
+        opacity: 0.35;
+        animation: headerSweep 5s ease-in-out infinite;
+      }
+
+      @keyframes headerSweep {
+        0%   { transform: translateX(-60%); opacity: 0.15; }
+        50%  { transform: translateX(0%);   opacity: 0.4; }
+        100% { transform: translateX(60%);  opacity: 0.15; }
       }
 
       .header-inner {
@@ -100,11 +106,7 @@
         min-height: 84px;
       }
 
-      .brand {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
+      .brand { display: flex; flex-direction: column; gap: 4px; }
 
       .brand-title {
         font-size: 1.2rem;
@@ -114,9 +116,10 @@
 
       .brand-subtitle,
       .eyebrow {
-        font-size: 0.72rem;
+        font-family: var(--mono);
+        font-size: 0.65rem;
         text-transform: uppercase;
-        letter-spacing: 0.24em;
+        letter-spacing: 0.16em;
         color: var(--muted);
       }
 
@@ -142,6 +145,9 @@
         padding: 12px 16px;
         border-radius: 999px;
         color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
       }
 
       .nav-btn.active {
@@ -171,6 +177,7 @@
         border: 1px solid var(--line);
         background: var(--bg-elev);
         box-shadow: var(--shadow);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
       }
 
       .icon-link:hover,
@@ -178,7 +185,7 @@
       .mobile-menu-toggle:hover,
       .carousel-arrow:hover {
         border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
-        box-shadow: 0 12px 30px rgba(15, 118, 110, 0.12);
+        box-shadow: 0 0 18px var(--glow), 0 4px 12px rgba(0,0,0,0.08);
       }
 
       .theme-toggle {
@@ -198,13 +205,10 @@
       }
 
       .mobile-controls,
-      .mobile-menu {
-        display: none;
-      }
+      .mobile-menu { display: none; }
 
-      .section {
-        padding: 28px 0 68px;
-      }
+      /* ─── SECTIONS ───────────────────────────────────────── */
+      .section { padding: 28px 0 68px; }
 
       .section h2 {
         margin: 8px 0 0;
@@ -220,15 +224,54 @@
         color: var(--muted);
       }
 
-    .home-showcase {
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
-    }
+      /* ─── HOME SHOWCASE ──────────────────────────────────── */
+      .home-showcase {
+        position: relative;
+        overflow: hidden;
+        margin-top: 20px;
+        border-radius: 36px;
+        padding: 24px;
+        background: color-mix(in srgb, var(--card) 60%, transparent);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
 
-    html.dark .home-showcase {
-    background: none;
-    }
+      /* Circuit grid overlay */
+      .home-showcase::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--grid-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+        background-size: 36px 36px;
+        border-radius: inherit;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Radial glow corner */
+      .home-showcase::after {
+        content: '';
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, color-mix(in srgb, var(--accent) 14%, transparent), transparent 65%);
+        pointer-events: none;
+        z-index: 0;
+        animation: glowPulse 6s ease-in-out infinite;
+      }
+
+      @keyframes glowPulse {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50%       { opacity: 1;   transform: scale(1.12); }
+      }
+
+      .home-showcase > * { position: relative; z-index: 1; }
+
+      html.dark .home-showcase { background: none; }
 
       .grid-home {
         display: grid;
@@ -237,6 +280,7 @@
         align-items: stretch;
       }
 
+      /* ─── CARDS BASE ─────────────────────────────────────── */
       .hero,
       .card,
       .resume-frame,
@@ -248,8 +292,10 @@
         border: 1px solid var(--line);
         background: var(--card);
         box-shadow: var(--shadow);
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
       }
 
+      /* ─── HERO ───────────────────────────────────────────── */
       .hero {
         border-radius: 34px;
         padding: 42px;
@@ -258,6 +304,21 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Diagonal stripe accent on hero */
+      .hero::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(circle at bottom right, var(--accent-soft-2), transparent 65%);
+        pointer-events: none;
+        animation: glowPulse 4s ease-in-out infinite 1s;
       }
 
       .hero h1 {
@@ -267,11 +328,18 @@
         letter-spacing: -0.05em;
       }
 
+      .hero h2 {
+        position: relative;
+        z-index: 1;
+      }
+
       .hero p {
         max-width: 680px;
         color: var(--muted);
         line-height: 1.9;
         font-size: 1rem;
+        position: relative;
+        z-index: 1;
       }
 
       .hero-actions {
@@ -279,8 +347,11 @@
         flex-wrap: wrap;
         gap: 12px;
         margin-top: 26px;
+        position: relative;
+        z-index: 1;
       }
 
+      /* ─── BUTTONS ────────────────────────────────────────── */
       .primary-btn,
       .secondary-btn {
         padding: 14px 20px;
@@ -292,6 +363,32 @@
         background: var(--pill);
         color: var(--pill-text);
         box-shadow: 0 10px 26px rgba(15, 118, 110, 0.22);
+        position: relative;
+        overflow: hidden;
+        transition: box-shadow 0.25s ease, transform 0.2s ease;
+      }
+
+      .primary-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+        transform: skewX(-20deg);
+        animation: shimmer 3.5s ease-in-out infinite 1s;
+      }
+
+      @keyframes shimmer {
+        0%   { left: -100%; }
+        40%  { left: 150%; }
+        100% { left: 150%; }
+      }
+
+      .primary-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 34px rgba(15, 118, 110, 0.32);
       }
 
       .secondary-btn {
@@ -300,6 +397,13 @@
         color: var(--text);
       }
 
+      .secondary-btn:hover {
+        border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+        box-shadow: 0 0 16px var(--glow);
+        transform: translateY(-2px);
+      }
+
+      /* ─── HEADSHOT CARD ──────────────────────────────────── */
       .headshot-card {
         border-radius: 34px;
         min-height: 540px;
@@ -312,11 +416,7 @@
           linear-gradient(135deg, color-mix(in srgb, var(--card) 90%, white), color-mix(in srgb, var(--bg) 97%, black 3%));
       }
 
-      .headshot-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+      .headshot-image { width: 100%; height: 100%; object-fit: cover; }
 
       .headshot-placeholder {
         display: flex;
@@ -339,28 +439,22 @@
         justify-content: center;
         font-size: 2rem;
         background: color-mix(in srgb, var(--accent) 8%, var(--bg-elev));
+        animation: dotPulse 2.8s ease-in-out infinite;
       }
 
-      .card {
-        border-radius: 30px;
-        padding: 24px;
-      }
+      /* ─── GENERIC CARD ───────────────────────────────────── */
+      .card { border-radius: 30px; padding: 24px; }
 
       .card h3,
       .timeline-card h3,
-      .project-card h3 {
-        margin: 0;
-        font-size: 1.18rem;
-      }
+      .project-card h3 { margin: 0; font-size: 1.18rem; }
 
       .card p,
       .timeline-card p,
       .project-card p,
-      .helper-card {
-        color: var(--muted);
-        line-height: 1.8;
-      }
+      .helper-card { color: var(--muted); line-height: 1.8; }
 
+      /* ─── HOME CAROUSEL ──────────────────────────────────── */
       .home-projects-header {
         display: flex;
         align-items: center;
@@ -375,22 +469,11 @@
         letter-spacing: -0.03em;
       }
 
-      .home-projects-title-wrap p {
-        margin: 8px 0 0;
-        color: var(--muted);
-        line-height: 1.8;
-      }
+      .home-projects-title-wrap p { margin: 8px 0 0; color: var(--muted); line-height: 1.8; }
 
-      .home-carousel-controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+      .home-carousel-controls { display: flex; align-items: center; gap: 10px; }
 
-      .home-projects-viewport {
-        overflow: hidden;
-        border-radius: 28px;
-      }
+      .home-projects-viewport { overflow: hidden; border-radius: 28px; }
 
       .home-projects-track {
         display: flex;
@@ -405,8 +488,7 @@
         display: grid;
         grid-template-columns: 1.1fr 0.9fr;
         gap: 22px;
-        background:
-          linear-gradient(135deg, color-mix(in srgb, var(--accent) 7%, var(--card)), color-mix(in srgb, var(--card) 96%, white));
+        background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 7%, var(--card)), color-mix(in srgb, var(--card) 96%, white));
       }
 
       .home-slide-meta {
@@ -425,7 +507,8 @@
         background: color-mix(in srgb, var(--accent) 10%, transparent);
         border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
         color: var(--accent);
-        font-size: 0.78rem;
+        font-family: var(--mono);
+        font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
@@ -437,18 +520,9 @@
         letter-spacing: -0.04em;
       }
 
-      .home-slide-meta p {
-        margin: 14px 0 0;
-        color: var(--muted);
-        line-height: 1.9;
-      }
+      .home-slide-meta p { margin: 14px 0 0; color: var(--muted); line-height: 1.9; }
 
-      .home-slide-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 10px;
-      }
+      .home-slide-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
 
       .home-slide-visual {
         border-radius: 24px;
@@ -472,12 +546,13 @@
 
       .home-slide-index {
         color: var(--muted);
-        font-size: 0.92rem;
+        font-size: 0.82rem;
+        font-family: var(--mono);
+        letter-spacing: 0.08em;
       }
 
       .home-slide-open {
-        width: 48px;
-        height: 48px;
+        width: 48px; height: 48px;
         border-radius: 999px;
         display: inline-flex;
         align-items: center;
@@ -487,9 +562,7 @@
         color: var(--accent);
       }
 
-      .home-slide-open.hidden {
-        display: none !important;
-      }
+      .home-slide-open.hidden { display: none !important; }
 
       .home-slide-visual-bottom {
         display: flex;
@@ -521,21 +594,16 @@
       }
 
       .home-carousel-dot {
-        width: 10px;
-        height: 10px;
+        width: 10px; height: 10px;
         border-radius: 999px;
         background: color-mix(in srgb, var(--accent) 22%, var(--line));
+        transition: width 0.3s ease, background 0.3s ease;
       }
 
-      .home-carousel-dot.active {
-        width: 28px;
-        background: var(--accent);
-      }
+      .home-carousel-dot.active { width: 28px; background: var(--accent); }
 
-      .resume-frame {
-        border-radius: 34px;
-        overflow: hidden;
-      }
+      /* ─── RESUME ─────────────────────────────────────────── */
+      .resume-frame { border-radius: 34px; overflow: hidden; }
 
       .resume-top {
         display: flex;
@@ -560,18 +628,16 @@
         color: var(--muted);
       }
 
-      /* EXPERIENCE GRID & STACKED IMAGES STYLES */
+      /* ─── EXPERIENCE ─────────────────────────────────────── */
       .experience-grid {
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;
         gap: 32px;
-        align-items: stretch; /* Ensures columns are same height */
+        align-items: stretch;
         margin-top: 26px;
       }
 
-      .experience-carousel-column {
-        height: 100%; /* Matches the height of the left column */
-      }
+      .experience-carousel-column { height: 100%; }
 
       .experience-carousel-container {
         display: flex;
@@ -582,29 +648,37 @@
       }
 
       .exp-carousel-img {
-        flex: 1; /* Distributes vertical space equally */
+        flex: 1;
         width: 100%;
-        min-height: 0; /* Allows shrinking within flex container */
+        min-height: 0;
         object-fit: cover;
         border-radius: 28px;
         border: 1px solid var(--line);
         box-shadow: var(--shadow);
         background: var(--card);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
       }
 
+      .exp-carousel-img:hover {
+        box-shadow: 0 18px 40px var(--glow);
+        transform: translateY(-3px);
+      }
+
+      /* ─── TIMELINE ───────────────────────────────────────── */
       .timeline {
         position: relative;
         padding-left: 22px;
       }
 
       .timeline::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 4px;
         left: 10px;
         bottom: 4px;
         width: 1px;
-        background: var(--line);
+        background: linear-gradient(to bottom, var(--accent-soft), var(--accent), var(--accent-soft));
+        opacity: 0.5;
       }
 
       .timeline-item {
@@ -614,7 +688,7 @@
       }
 
       .timeline-item::before {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         top: 24px;
@@ -623,11 +697,24 @@
         border-radius: 50%;
         background: var(--pill);
         box-shadow: 0 0 0 4px var(--bg);
+        animation: dotPulse 2.8s ease-in-out infinite;
       }
 
-      .timeline-card {
-        border-radius: 28px;
-        padding: 28px;
+      /* Stagger pulse animation per item */
+      .timeline-item:nth-child(2)::before { animation-delay: 0.4s; }
+      .timeline-item:nth-child(3)::before { animation-delay: 0.8s; }
+      .timeline-item:nth-child(4)::before { animation-delay: 1.2s; }
+
+      @keyframes dotPulse {
+        0%, 100% { box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--accent-soft); }
+        50%       { box-shadow: 0 0 0 4px var(--bg), 0 0 0 9px var(--accent-soft-2), 0 0 18px var(--accent-soft); }
+      }
+
+      .timeline-card { border-radius: 28px; padding: 28px; }
+
+      .timeline-card:hover {
+        border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+        box-shadow: 0 16px 40px var(--glow), var(--shadow);
       }
 
       .experience-entry:not(:first-child) {
@@ -650,30 +737,26 @@
         margin-bottom: 4px;
       }
 
-      .timeline-role {
-        margin-top: 0;
-        color: var(--text);
-        font-weight: 600;
-      }
+      .timeline-role { margin-top: 0; color: var(--text); font-weight: 600; }
 
       .timeline-date {
         color: var(--muted);
         white-space: nowrap;
         font-weight: 500;
-        font-size: 0.94rem;
+        font-size: 0.84rem;
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
       }
 
       .timeline-location {
-        font-size: 0.94rem;
+        font-size: 0.84rem;
         color: var(--muted);
         font-weight: 500;
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
       }
 
-      .timeline-list {
-        margin: 12px 0 0;
-        padding: 0;
-        list-style: none;
-      }
+      .timeline-list { margin: 12px 0 0; padding: 0; list-style: none; }
 
       .timeline-list li {
         position: relative;
@@ -685,7 +768,7 @@
       }
 
       .timeline-list li::before {
-        content: "";
+        content: '';
         position: absolute;
         left: 0;
         top: 11px;
@@ -695,7 +778,7 @@
         background: var(--pill);
       }
 
-      /* UPDATED PROJECTS GRID STYLES */
+      /* ─── PROJECTS GRID ──────────────────────────────────── */
       .projects-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -713,13 +796,20 @@
         position: relative;
         text-align: left;
         width: 100%;
+        transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+        will-change: transform;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
       }
 
-      .project-card-content {
-        padding: 24px;
-        flex-grow: 1;
-        text-align: left;
+      .project-card:hover {
+        border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+        box-shadow:
+          0 20px 50px rgba(15, 118, 110, 0.14),
+          0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+          inset 0 1px 0 rgba(255,255,255,0.06);
       }
+
+      .project-card-content { padding: 24px; flex-grow: 1; text-align: left; }
 
       .project-card-image {
         width: 100%;
@@ -727,7 +817,10 @@
         object-fit: cover;
         border-top: 1px solid var(--line);
         background: color-mix(in srgb, var(--accent) 4%, var(--bg-elev));
+        transition: filter 0.3s ease;
       }
+
+      .project-card:hover .project-card-image { filter: brightness(1.04) saturate(1.08); }
 
       .project-top {
         display: flex;
@@ -736,7 +829,6 @@
         gap: 16px;
       }
 
-      /* Attachment Indicator */
       .attachment-icon {
         position: absolute;
         top: 20px;
@@ -755,19 +847,16 @@
       }
 
       .project-category {
-        font-size: 0.74rem;
+        font-family: var(--mono);
+        font-size: 0.7rem;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
-        color: var(--muted);
-        font-weight: 650;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        font-weight: 600;
+        opacity: 0.8;
       }
 
-      .project-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 18px;
-      }
+      .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 
       .tag {
         display: inline-flex;
@@ -777,7 +866,17 @@
         border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
         background: color-mix(in srgb, var(--accent) 7%, var(--card));
         color: color-mix(in srgb, var(--accent) 80%, var(--text));
-        font-size: 0.78rem;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+
+      .tag:hover {
+        border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+        background: color-mix(in srgb, var(--accent) 14%, var(--card));
+        box-shadow: 0 0 10px var(--glow);
+        transform: translateY(-1px);
       }
 
       .helper-card {
@@ -793,40 +892,11 @@
         padding: 2px 7px;
         border-radius: 8px;
         border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+        font-family: var(--mono);
+        font-size: 0.88em;
       }
 
-      .gallery {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 26px;
-        margin-top: 28px;
-        align-items: start;
-      }
-
-      .gallery-item {
-        margin: 0;
-        border-radius: 30px;
-        overflow: hidden;
-        border: 1px solid var(--line);
-        background: var(--card);
-        box-shadow: var(--shadow);
-        cursor: default;
-        -webkit-tap-highlight-color: transparent;
-        align-self: start;
-      }
-
-      .gallery-item img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-
-      .gallery-item figcaption {
-        padding: 14px 16px;
-        color: var(--muted);
-        font-size: 0.94rem;
-      }
-
+      /* ─── MODAL ──────────────────────────────────────────── */
       .modal {
         position: fixed;
         inset: 0;
@@ -835,11 +905,15 @@
         justify-content: center;
         padding: 18px;
         background: rgba(0, 0, 0, 0.68);
+        backdrop-filter: blur(6px);
         z-index: 100;
       }
 
-      .modal.open {
-        display: flex;
+      .modal.open { display: flex; animation: modalIn 0.28s ease forwards; }
+
+      @keyframes modalIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
       }
 
       .modal-card {
@@ -852,6 +926,12 @@
         border: 1px solid var(--line);
         background: var(--card);
         box-shadow: var(--shadow);
+        animation: modalSlide 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      @keyframes modalSlide {
+        from { transform: translateY(20px) scale(0.97); opacity: 0; }
+        to   { transform: translateY(0)    scale(1);    opacity: 1; }
       }
 
       .modal-top {
@@ -863,48 +943,75 @@
       }
 
       .modal-close {
-        width: 42px;
-        height: 42px;
+        width: 42px; height: 42px;
         border-radius: 999px;
         border: 1px solid var(--line);
         background: var(--bg-elev);
         flex-shrink: 0;
+        transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
       }
 
-      .modal-frame {
-        width: 100%;
-        height: 100%;
-        border: 0;
+      .modal-close:hover {
+        border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+        box-shadow: 0 0 12px var(--glow);
+        transform: rotate(90deg);
       }
 
-      .hidden {
-        display: none !important;
+      .modal-frame { width: 100%; height: 100%; border: 0; }
+
+      /* ─── SCROLL REVEAL SYSTEM ───────────────────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(22px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+        transition-delay: var(--reveal-delay, 0s);
       }
 
+      .reveal.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ─── PAGE TRANSITIONS ───────────────────────────────── */
+      .page-enter {
+        animation: pageEnter 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      @keyframes pageEnter {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      /* ─── TYPEWRITER CURSOR ──────────────────────────────── */
+      .typer-cursor {
+        display: inline-block;
+        width: 3px;
+        height: 0.85em;
+        background: var(--accent);
+        margin-left: 3px;
+        vertical-align: text-bottom;
+        border-radius: 2px;
+        animation: blink 1.1s ease-in-out infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        48%, 52% { opacity: 0; }
+      }
+
+      .hidden { display: none !important; }
+
+      /* ─── RESPONSIVE ─────────────────────────────────────── */
       @media (max-width: 1100px) {
         .grid-home,
-        .projects-grid {
-          grid-template-columns: 1fr 1fr;
-        }
-
-        .gallery {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .experience-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .experience-carousel-column {
-            display: none;
-        }
+        .projects-grid { grid-template-columns: 1fr 1fr; }
+        .experience-grid { grid-template-columns: 1fr; }
+        .experience-carousel-column { display: none; }
       }
 
       @media (max-width: 860px) {
         .desktop-nav,
-        .desktop-actions {
-          display: none;
-        }
+        .desktop-actions { display: none; }
 
         .mobile-controls {
           display: flex;
@@ -918,15 +1025,9 @@
           border-top: 1px solid var(--line);
         }
 
-        .mobile-menu.open {
-          display: block;
-        }
+        .mobile-menu.open { display: block; }
 
-        .mobile-nav-list {
-          display: grid;
-          gap: 10px;
-          margin-top: 16px;
-        }
+        .mobile-nav-list { display: grid; gap: 10px; margin-top: 16px; }
 
         .mobile-nav-btn {
           padding: 14px 16px;
@@ -934,11 +1035,20 @@
           text-align: left;
           border: 1px solid var(--line);
           background: var(--card);
+          font-family: var(--mono);
+          font-size: 0.84rem;
+          letter-spacing: 0.04em;
+          transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
         }
 
         .mobile-nav-btn.active {
           background: var(--pill);
           color: var(--pill-text);
+        }
+
+        .mobile-nav-btn:hover {
+          border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+          box-shadow: 0 0 12px var(--glow);
         }
 
         .mobile-contact-row {
@@ -950,17 +1060,10 @@
 
         .grid-home,
         .projects-grid,
-        .home-carousel-slide {
-          grid-template-columns: 1fr;
-        }
+        .home-carousel-slide { grid-template-columns: 1fr; }
 
-        .hero {
-          padding: 28px;
-        }
-
-        .headshot-card {
-          min-height: 420px;
-        }
+        .hero { padding: 28px; }
+        .headshot-card { min-height: 420px; }
 
         .timeline-header,
         .timeline-subheader,
@@ -972,58 +1075,27 @@
           gap: 4px;
         }
 
-        .timeline-location {
-            text-align: left;
-        }
-
-        .gallery {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 16px;
-        }
-
-        .gallery-item {
-          border-radius: 22px;
-        }
+        .timeline-location { text-align: left; }
       }
 
       @media (max-width: 560px) {
-        .container {
-          padding: 0 16px;
-        }
+        .container { padding: 0 16px; }
 
-        .gallery {
-          grid-template-columns: 1fr;
-        }
-
-        .hero h1 {
-          font-size: 2.6rem;
-        }
-
-        .section {
-          padding-bottom: 48px;
-        }
-
-        .headshot-card {
-          min-height: 320px;
-        }
+        .hero h1 { font-size: 2.6rem; }
+        .section { padding-bottom: 48px; }
+        .headshot-card { min-height: 320px; }
 
         .home-showcase {
           padding: 14px;
           border-radius: 28px;
         }
 
-        .home-carousel-slide {
-          padding: 18px;
-          border-radius: 22px;
-        }
-
-        .carousel-arrow {
-          width: 40px;
-          height: 40px;
-        }
+        .home-carousel-slide { padding: 18px; border-radius: 22px; }
+        .carousel-arrow { width: 40px; height: 40px; }
       }
     </style>
   </head>
+
   <body>
     <div class="shell">
       <header class="site-header">
@@ -1031,7 +1103,7 @@
           <div class="header-inner">
             <a href="#home" class="brand" data-page-link="home">
               <span class="brand-title">Brandon Wang</span>
-              <span class="brand-subtitle">Portfolio</span>
+              <span class="brand-subtitle">// Portfolio</span>
             </a>
 
             <nav class="desktop-nav" aria-label="Primary navigation">
@@ -1039,35 +1111,31 @@
               <button class="nav-btn" data-page="resume">Resume</button>
               <button class="nav-btn" data-page="experience">Experience</button>
               <button class="nav-btn" data-page="projects">Projects</button>
-              <button class="nav-btn" data-page="photography">Photography</button>
             </nav>
 
             <div class="desktop-actions">
-            <div class="social-links" style="display: flex; gap: 10px;">
+              <div class="social-links" style="display: flex; gap: 10px;">
                 <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                <iconify-icon icon="lucide:linkedin" width="20" height="20"></iconify-icon>
+                  <iconify-icon icon="lucide:linkedin" width="20" height="20"></iconify-icon>
                 </a>
-
-                <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">
-                <iconify-icon icon="lucide:mail" width="20" height="20"></iconify-icon>
+                <a class="icon-link" href="/cdn-cgi/l/email-protection#95f7e7f4fbf1fafbe7f0fce2f4fbf2d5f2f8f4fcf9bbf6faf8" aria-label="Email">
+                  <iconify-icon icon="lucide:mail" width="20" height="20"></iconify-icon>
                 </a>
-
                 <a class="icon-link" href="https://www.strava.com/athletes/51497666" target="_blank" rel="noreferrer" aria-label="Strava">
-                <iconify-icon icon="simple-icons:strava" width="20" height="20"></iconify-icon>
+                  <iconify-icon icon="simple-icons:strava" width="20" height="20"></iconify-icon>
                 </a>
-            </div>
+              </div>
 
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+              <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                 <iconify-icon id="themeIcon" icon="lucide:moon" width="18" height="18"></iconify-icon>
                 <span id="themeLabel">Dark mode</span>
-            </button>
+              </button>
             </div>
 
             <div class="mobile-controls">
               <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle theme mobile">
                 <span class="theme-dot" id="themeIconMobile">☾</span>
               </button>
-
               <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="3" y1="12" x2="21" y2="12"/>
@@ -1084,45 +1152,42 @@
               <button class="mobile-nav-btn" data-page="resume">Resume</button>
               <button class="mobile-nav-btn" data-page="experience">Experience</button>
               <button class="mobile-nav-btn" data-page="projects">Projects</button>
-              <button class="mobile-nav-btn" data-page="photography">Photography</button>
             </div>
-
-        <div class="mobile-contact-row">
-          <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <iconify-icon icon="lucide:linkedin" width="20" height="20"></iconify-icon>
-          </a>
-
-          <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">
-            <iconify-icon icon="lucide:mail" width="20" height="20"></iconify-icon>
-          </a>
-
-          <a class="icon-link" href="https://www.strava.com/athletes/51497666" target="_blank" rel="noreferrer" aria-label="Strava">
-            <iconify-icon icon="simple-icons:strava" width="20" height="20"></iconify-icon>
-          </a>
-        </div>
+            <div class="mobile-contact-row">
+              <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <iconify-icon icon="lucide:linkedin" width="20" height="20"></iconify-icon>
+              </a>
+              <a class="icon-link" href="/cdn-cgi/l/email-protection#d2b0a0b3bcb6bdbca0b7bba5b3bcb592b5bfb3bbbefcb1bdbf" aria-label="Email">
+                <iconify-icon icon="lucide:mail" width="20" height="20"></iconify-icon>
+              </a>
+              <a class="icon-link" href="https://www.strava.com/athletes/51497666" target="_blank" rel="noreferrer" aria-label="Strava">
+                <iconify-icon icon="simple-icons:strava" width="20" height="20"></iconify-icon>
+              </a>
+            </div>
           </div>
         </div>
       </header>
 
       <main class="container">
+        <!-- HOME -->
         <section class="section page" id="home">
           <div class="home-showcase" id="homeShowcase">
             <div class="grid-home">
-              <div class="headshot-card">
+              <div class="headshot-card reveal" style="--reveal-delay: 0.05s">
                 <img id="headshotImageEl" class="headshot-image hidden" src="" alt="Brandon Wang headshot" />
                 <div id="headshotPlaceholderEl" class="headshot-placeholder">
                   <div class="headshot-placeholder-circle">👤</div>
                   <div>
                     <strong style="display:block; color: var(--text); margin-bottom: 6px;">Headshot Placeholder</strong>
-                    Add your image file path in the <code>headshotImage</code> variable.
+                    Add your image file path in the <code style="font-family:var(--mono);font-size:0.85em;">headshotImage</code> variable.
                   </div>
                 </div>
               </div>
 
-              <div class="hero">
-                <h2>Aspiring Electrical Engineer, Innovator</h2>
+              <div class="hero reveal" style="--reveal-delay: 0.18s">
+                <h2 id="heroHeading">Aspiring Electrical Engineer, Innovator</h2>
                 <p>
-                  I’m a junior Electrical Engineering student at The Ohio State University passionate about building innovative hardware that connects technology with real human impact. As a hands-on, project-driven engineer, I focus on sensors, embedded electronics, prototyping, and research-driven design while tackling challenging problems and turning ideas into working systems.
+                  I'm a junior Electrical Engineering student at The Ohio State University passionate about building innovative hardware that connects technology with real human impact. As a hands-on, project-driven engineer, I focus on sensors, embedded electronics, prototyping, and research-driven design while tackling challenging problems and turning ideas into working systems.
                 </p>
                 <p>
                   Dive in and explore my technical work and projects, all in one place.
@@ -1136,11 +1201,13 @@
           </div>
         </section>
 
+        <!-- RESUME -->
         <section class="section page hidden" id="resume">
+          <span class="eyebrow">// Document</span>
           <h2>Resume</h2>
           <p class="section-subtitle"></p>
 
-          <div class="resume-frame">
+          <div class="resume-frame reveal">
             <div class="resume-top">
               <a class="secondary-btn" id="resumeLink" href="#" target="_blank" rel="noreferrer">Open full PDF</a>
             </div>
@@ -1149,30 +1216,28 @@
           </div>
         </section>
 
+        <!-- EXPERIENCE -->
         <section class="section page hidden" id="experience">
+          <span class="eyebrow">// Work history</span>
           <h2>Experience</h2>
           <div class="experience-grid">
             <div class="timeline" id="timeline"></div>
             <div class="experience-carousel-column">
-                <div class="experience-carousel-container" id="expCarouselContainer">
-                </div>
+              <div class="experience-carousel-container" id="expCarouselContainer"></div>
             </div>
           </div>
         </section>
 
+        <!-- PROJECTS -->
         <section class="section page hidden" id="projects">
+          <span class="eyebrow">// Engineering portfolio</span>
           <h2>Projects</h2>
           <div class="projects-grid" id="projectsGrid"></div>
-        </section>
-
-        <section class="section page hidden" id="photography">
-          <h2>Photography</h2>
-          <div class="gallery" id="gallery"></div>
-          <div class="gallery-empty hidden" id="galleryEmpty">No photos added yet. Put image paths in the <code>photos</code> array in the script.</div>
         </section>
       </main>
     </div>
 
+    <!-- MODAL -->
     <div class="modal" id="projectModal" aria-hidden="true">
       <div class="modal-card">
         <div class="modal-top">
@@ -1187,9 +1252,11 @@
       </div>
     </div>
 
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
-      const resumePdf = "BrandonWang_Resume.pdf";
-      const headshotImage = "headshot.jpg";
+      /* ─── USER CONFIG ─────────────────────────────────── */
+      const resumePdf      = "BrandonWang_Resume.pdf";
+      const headshotImage  = "headshot.jpg";
 
       const experienceImages = [
         "e1.jpg",
@@ -1251,7 +1318,6 @@
                 "Built a Python automation tool to manage weekly OTA software and health checks, eliminating 95% of manual effort",
                 "Reworked dishwashers in test labs to integrate a new LCD from an alternate manufacturer, ensuring 100% functionality"
               ]
-
             },
             {
               title: "GE Appliances",
@@ -1265,8 +1331,7 @@
                 "Validated reliability of new ultrasonic sensors by testing performance across varying sensitivity parameters",
                 "Performed in-depth RCA on refrigerator PCBs to identify manufacturing defects and enhance overall quality control"
               ]
-
-            }            
+            }
           ]
         },
       ];
@@ -1327,7 +1392,7 @@
           tags: ["Fusion360", "Prototyping", "Manufacturing"],
           pdf: "",
           image: "stroller.jpg"
-        },  
+        },
         {
           title: "APPA",
           category: "Robotics / Mechatronics",
@@ -1343,7 +1408,7 @@
           tags: ["MATLAB", "Game Design"],
           pdf: "",
           image: "cvz2.png"
-        },            
+        },
         {
           title: "Birthday Binary Counter",
           category: "Digital Logic Design",
@@ -1351,7 +1416,7 @@
           tags: ["Digital Logic", "Breadboarding", "Logic Gates"],
           pdf: "birthday2.jpg",
           image: "birthday1.jpg"
-        },     
+        },
         {
           title: "2 Player Snake Game",
           category: "Embedded Systems / Gaming",
@@ -1362,77 +1427,38 @@
         }
       ];
 
-      const photos = [
-        "Photography/20260101_132336.jpg",
-        "Photography/PXL_20251227_142724057.MP.jpg",
-        "Photography/PXL_20251227_232556252.jpg",
-        "Photography/PXL_20251227_233413796.jpg",
-        "Photography/PXL_20251228_091049636.NIGHT.jpg",
-        "Photography/PXL_20251228_091240106.jpg",
-        "Photography/PXL_20251228_092712278.jpg",
-        "Photography/PXL_20251229_070820879.jpg",
-        "Photography/PXL_20251230_013548304.jpg",
-        "Photography/PXL_20251230_014125899.MP.jpg",
-        "Photography/PXL_20260101_081001501.jpg",
-        "Photography/PXL_20260101_081439261.jpg",
-        "Photography/PXL_20260101_084323846.jpg",
-        "Photography/PXL_20260101_084433866.jpg",
-        "Photography/PXL_20260101_084451372.jpg",
-        "Photography/PXL_20260101_093209324.jpg",
-        "Photography/PXL_20260101_094220992.jpg",
-        "Photography/PXL_20260101_094425713.jpg",
-        "Photography/PXL_20260101_095353166.jpg",
-        "Photography/PXL_20260101_100057029.jpg",
-        "Photography/PXL_20260102_063956576.jpg",
-        "Photography/PXL_20260103_074318627.MP.jpg",
-        "Photography/PXL_20260103_074938018.jpg",
-        "Photography/PXL_20260103_080714905.jpg",
-        "Photography/PXL_20260103_220101420.jpg",
-        "Photography/PXL_20260104_040714755.jpg",
-        "Photography/PXL_20260105_012638916.jpg",
-        "Photography/PXL_20260106_032021037.jpg",
-        "Photography/DSCF0011~2.JPG"
-      ];
+      /* ─── DOM REFS ────────────────────────────────────── */
+      const pages             = [...document.querySelectorAll(".page")];
+      const navButtons        = [...document.querySelectorAll("[data-page]")];
+      const mobileMenu        = document.getElementById("mobileMenu");
+      const mobileMenuToggle  = document.getElementById("mobileMenuToggle");
+      const htmlEl            = document.documentElement;
+      const themeLabel        = document.getElementById("themeLabel");
+      const themeIcon         = document.getElementById("themeIcon");
+      const themeIconMobile   = document.getElementById("themeIconMobile");
+      const timeline          = document.getElementById("timeline");
+      const projectsGrid      = document.getElementById("projectsGrid");
+      const resumeFrame       = document.getElementById("resumeFrame");
+      const resumeLink        = document.getElementById("resumeLink");
+      const modal             = document.getElementById("projectModal");
+      const modalClose        = document.getElementById("modalClose");
+      const modalTitle        = document.getElementById("modalTitle");
+      const modalCategory     = document.getElementById("modalCategory");
+      const modalSummary      = document.getElementById("modalSummary");
+      const modalFrame        = document.getElementById("modalFrame");
+      const headshotImageEl        = document.getElementById("headshotImageEl");
+      const headshotPlaceholderEl  = document.getElementById("headshotPlaceholderEl");
+      const expCarouselContainer   = document.getElementById("expCarouselContainer");
+      const heroHeading            = document.getElementById("heroHeading");
 
-      const pages = [...document.querySelectorAll(".page")];
-      const navButtons = [...document.querySelectorAll("[data-page]")];
-      const mobileMenu = document.getElementById("mobileMenu");
-      const mobileMenuToggle = document.getElementById("mobileMenuToggle");
-      const htmlEl = document.documentElement;
-      const themeLabel = document.getElementById("themeLabel");
-      const themeIcon = document.getElementById("themeIcon");
-      const themeIconMobile = document.getElementById("themeIconMobile");
-      const timeline = document.getElementById("timeline");
-      const projectsGrid = document.getElementById("projectsGrid");
-      const gallery = document.getElementById("gallery");
-      const galleryEmpty = document.getElementById("galleryEmpty");
-      const resumeFrame = document.getElementById("resumeFrame");
-      const resumeEmpty = document.getElementById("resumeEmpty");
-      const resumeLink = document.getElementById("resumeLink");
-      const modal = document.getElementById("projectModal");
-      const modalClose = document.getElementById("modalClose");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalCategory = document.getElementById("modalCategory");
-      const modalSummary = document.getElementById("modalSummary");
-      const modalFrame = document.getElementById("modalFrame");
-      const headshotImageEl = document.getElementById("headshotImageEl");
-      const headshotPlaceholderEl = document.getElementById("headshotPlaceholderEl");
-      const homeProjectsTrack = document.getElementById("homeProjectsTrack");
-      const homeCarouselDots = document.getElementById("homeCarouselDots");
-      const homeCarouselPrev = document.getElementById("homeCarouselPrev");
-      const homeCarouselNext = document.getElementById("homeCarouselNext");
-      const expCarouselContainer = document.getElementById("expCarouselContainer");
-
-      let homeCarouselIndex = 0;
-      let homeCarouselInterval = null;
-
+      /* ─── THEME ───────────────────────────────────────── */
       function setTheme(mode) {
-          htmlEl.classList.toggle("dark", mode === "dark");
-          localStorage.setItem("portfolio-theme", mode);
-          const dark = mode === "dark";
-          themeLabel.textContent = dark ? "Light mode" : "Dark mode";
-          themeIcon.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
-          themeIconMobile.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
+        htmlEl.classList.toggle("dark", mode === "dark");
+        localStorage.setItem("portfolio-theme", mode);
+        const dark = mode === "dark";
+        themeLabel.textContent = dark ? "Light mode" : "Dark mode";
+        themeIcon.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
+        themeIconMobile.setAttribute("icon", dark ? "lucide:sun" : "lucide:moon");
       }
 
       const savedTheme = localStorage.getItem("portfolio-theme") || "light";
@@ -1446,8 +1472,20 @@
         setTheme(htmlEl.classList.contains("dark") ? "light" : "dark");
       });
 
+      /* ─── PAGE NAVIGATION ─────────────────────────────── */
       function showPage(pageId) {
-        pages.forEach((page) => page.classList.toggle("hidden", page.id !== pageId));
+        pages.forEach((page) => {
+          const isTarget = page.id === pageId;
+          page.classList.toggle("hidden", !isTarget);
+          if (isTarget) {
+            page.classList.remove("page-enter");
+            void page.offsetWidth; // reflow
+            page.classList.add("page-enter");
+            setTimeout(() => page.classList.remove("page-enter"), 400);
+            // Trigger reveal for newly shown page
+            setTimeout(observeReveal, 60);
+          }
+        });
         navButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.page === pageId));
         history.replaceState(null, "", "#" + pageId);
         mobileMenu.classList.remove("open");
@@ -1467,6 +1505,7 @@
         mobileMenu.classList.toggle("open");
       });
 
+      /* ─── HEADSHOT ────────────────────────────────────── */
       function setupHeadshot() {
         if (headshotImage && headshotImage.trim() !== "") {
           headshotImageEl.src = headshotImage;
@@ -1475,45 +1514,55 @@
         }
       }
 
-      function renderExperience() {
-        timeline.innerHTML = experiences.map((block) => {
-          const firstEntry = block.blockEntries[0];
-          return `
-          <article class="timeline-item">
-            <div class="timeline-card">
-              <div class="timeline-header">
-                <h3 style="margin:0;">${firstEntry.title}</h3>
-                <div class="timeline-location">${firstEntry.location}</div>
-              </div>
-
-              ${block.blockEntries.map((exp) => `
-                <div class="experience-entry">
-                  <div class="timeline-subheader">
-                    <div class="timeline-role">${exp.role}</div>
-                    <div class="timeline-date">${exp.date}</div>
-                  </div>
-                  <ul class="timeline-list">
-                    ${exp.bullets.map((b) => `<li>${b}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
-            </div>
-          </article>
-        `}).join("");
-
-        if (experienceImages.length) {
-            expCarouselContainer.innerHTML = experienceImages.map((src) => 
-                `<img src="${src}" class="exp-carousel-img" alt="Experience photo">`
-            ).join("");
+      /* ─── RESUME ──────────────────────────────────────── */
+      function setupResume() {
+        if (resumePdf) {
+          resumeFrame.src = resumePdf;
+          resumeLink.href = resumePdf;
         }
       }
 
+      /* ─── EXPERIENCE ──────────────────────────────────── */
+      function renderExperience() {
+        timeline.innerHTML = experiences.map((block, blockIdx) => {
+          const firstEntry = block.blockEntries[0];
+          return `
+            <article class="timeline-item reveal" style="--reveal-delay: ${blockIdx * 0.1}s">
+              <div class="timeline-card">
+                <div class="timeline-header">
+                  <h3 style="margin:0;">${firstEntry.title}</h3>
+                  <div class="timeline-location">${firstEntry.location}</div>
+                </div>
+                ${block.blockEntries.map((exp) => `
+                  <div class="experience-entry">
+                    <div class="timeline-subheader">
+                      <div class="timeline-role">${exp.role}</div>
+                      <div class="timeline-date">${exp.date}</div>
+                    </div>
+                    <ul class="timeline-list">
+                      ${exp.bullets.map((b) => `<li>${b}</li>`).join("")}
+                    </ul>
+                  </div>
+                `).join("")}
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        if (experienceImages.length) {
+          expCarouselContainer.innerHTML = experienceImages.map((src) =>
+            `<img src="${src}" class="exp-carousel-img reveal" alt="Experience photo">`
+          ).join("");
+        }
+      }
+
+      /* ─── MODAL ───────────────────────────────────────── */
       function openModal(project) {
         if (!project.pdf) return;
-        modalTitle.textContent = project.title;
+        modalTitle.textContent    = project.title;
         modalCategory.textContent = project.category;
-        modalSummary.textContent = project.summary;
-        modalFrame.src = project.pdf;
+        modalSummary.textContent  = project.summary;
+        modalFrame.src            = project.pdf;
         modal.classList.add("open");
         modal.setAttribute("aria-hidden", "false");
       }
@@ -1525,97 +1574,109 @@
       }
 
       modalClose.addEventListener("click", closeModal);
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-      });
+      modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-      });
-
+      /* ─── PROJECTS ────────────────────────────────────── */
       function renderProjects() {
         projectsGrid.innerHTML = "";
-        projects.forEach((project) => {
+        projects.forEach((project, index) => {
           const hasPdf = project.pdf && project.pdf.trim() !== "";
           const el = document.createElement(hasPdf ? "button" : "div");
-          el.className = "project-card";
+          el.className = "project-card reveal";
+          el.style.setProperty("--reveal-delay", `${(index % 3) * 0.1}s`);
           el.innerHTML = `
             <div class="project-card-content">
-                ${hasPdf ? `<div class="attachment-icon" title="View Attachment">
-                    <iconify-icon icon="lucide:file-text"></iconify-icon>
-                </div>` : ''}
-                <div class="project-top">
+              ${hasPdf ? `<div class="attachment-icon" title="View Attachment">
+                <iconify-icon icon="lucide:file-text"></iconify-icon>
+              </div>` : ""}
+              <div class="project-top">
                 <div>
-                    <div class="project-category">${project.category}</div>
-                    <h3 style="margin-top:10px;">${project.title}</h3>
+                  <div class="project-category">${project.category}</div>
+                  <h3 style="margin-top:10px;">${project.title}</h3>
                 </div>
-                </div>
-                <p style="margin-top:16px; font-size: 0.94rem;">${project.summary}</p>
-                <div class="project-tags">
+              </div>
+              <p style="margin-top:16px; font-size: 0.94rem;">${project.summary}</p>
+              <div class="project-tags">
                 ${project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-                </div>
+              </div>
             </div>
-            <img class="project-card-image" src="${project.image || 'https://placehold.co/600x400/0f766e/ffffff?text=No+Image'}" alt="${project.title}">
+            <img class="project-card-image" src="${project.image || "https://placehold.co/600x400/0f766e/ffffff?text=No+Image"}" alt="${project.title}">
           `;
-          if (hasPdf) {
-            el.addEventListener("click", () => openModal(project));
-          }
+          if (hasPdf) el.addEventListener("click", () => openModal(project));
+
+          // Magnetic tilt effect
+          el.addEventListener("mousemove", (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width  - 0.5);
+            const y = ((e.clientY - rect.top)  / rect.height - 0.5);
+            el.style.setProperty("--rx", `${-y * 5}deg`);
+            el.style.setProperty("--ry", `${x * 5}deg`);
+          });
+          el.addEventListener("mouseleave", () => {
+            el.style.setProperty("--rx", "0deg");
+            el.style.setProperty("--ry", "0deg");
+          });
+
           projectsGrid.appendChild(el);
         });
       }
 
-      function renderGallery() {
-        if (!photos.length) {
-          gallery.classList.add("hidden");
-          galleryEmpty.classList.remove("hidden");
-          return;
-        }
+      /* ─── SCROLL REVEAL ───────────────────────────────── */
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: "0px 0px -36px 0px" });
 
-        gallery.classList.remove("hidden");
-        galleryEmpty.classList.add("hidden");
-
-        gallery.innerHTML = photos.map((src, index) => {
-          const name = src.split("/").pop().replace(/\.[^.]+$/, "").replace(/[-_]/g, " ") || `Photo ${index + 1}`;
-          return `
-            <figure class="gallery-item">
-              <img src="${src}" alt="${name}" loading="lazy" />
-            </figure>
-          `;
-        }).join("");
-      }
-
-      function goToHomeProject(index) {
-        if (!projects.length) return;
-        homeCarouselIndex = (index + projects.length) % projects.length;
-        homeProjectsTrack.style.transform = `translateX(-${homeCarouselIndex * 100}%)`;
-        [...homeCarouselDots.children].forEach((dot, dotIndex) => {
-          dot.classList.toggle("active", dotIndex === homeCarouselIndex);
+      function observeReveal() {
+        document.querySelectorAll(".reveal:not(.revealed)").forEach((el) => {
+          revealObserver.observe(el);
         });
       }
 
-      function startHomeCarouselAutoPlay() {
-        clearInterval(homeCarouselInterval);
-        if (projects.length <= 1) return;
-        homeCarouselInterval = setInterval(() => {
-          goToHomeProject(homeCarouselIndex + 1);
-        }, 4200);
+      /* ─── TYPEWRITER ──────────────────────────────────── */
+      function typewriter(el, speed = 38) {
+        const text = el.textContent.trim();
+        el.textContent = "";
+        const cursor = document.createElement("span");
+        cursor.className = "typer-cursor";
+        el.appendChild(cursor);
+
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i < text.length) {
+            cursor.insertAdjacentText("beforebegin", text[i]);
+            i++;
+          } else {
+            clearInterval(timer);
+            // Cursor stays blinking after done
+          }
+        }, speed);
       }
 
-      function setupResume() {
-        if (resumePdf) {
-          resumeFrame.src = resumePdf;
-          resumeLink.href = resumePdf;
-        }
-      }
-
+      /* ─── INIT ────────────────────────────────────────── */
       setupHeadshot();
+      setupResume();
       renderExperience();
       renderProjects();
-      renderGallery();
-      setupResume();
 
-      const initialPage = (location.hash || "#home").replace("#", "");
-      showPage(document.getElementById(initialPage) ? initialPage : "home");
+      // Start reveal observer after a tick to catch everything
+      requestAnimationFrame(() => observeReveal());
+
+      // Typewriter on hero heading after short delay
+      setTimeout(() => {
+        if (heroHeading) typewriter(heroHeading, 36);
+      }, 280);
+
+      // Handle initial hash
+      const hash = location.hash.replace("#", "");
+      if (hash && pages.some((p) => p.id === hash)) {
+        showPage(hash);
+      }
     </script>
   </body>
 </html>
