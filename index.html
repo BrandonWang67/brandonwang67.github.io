@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Brandon Wang's Portfolio</title>
+  </head>
+
+  <body>
+    <!-- ─── GLOBAL BACKGROUND CANVAS — interactive particles ── -->
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+    <!-- ─── CUSTOM CURSOR ───────────────────────────────── -->
+    <canvas id="trailCanvas" aria-hidden="true"></canvas>
+    <div id="cursorDot"  aria-hidden="true"></div>
+    <div id="cursorRing" aria-hidden="true"></div>
+
+    <div class="shell">
+      <!-- ─── HEADER ──────────────────────────────────────── -->
+      <header class="site-header">
+        <div class="container">
+          <div class="header-inner">
+            <a href="#home" class="brand" data-page-link="home">
+              <span class="brand-name">Brandon Wang</span>
+              <span class="brand-subtitle">// Portfolio</span>
+            </a>
+
+            <nav class="desktop-nav" aria-label="Primary navigation">
+              <button class="nav-btn active" data-page="home">Home</button>
+              <button class="nav-btn" data-page="resume">Resume</button>
+              <button class="nav-btn" data-page="experience">Experience</button>
+              <button class="nav-btn" data-page="projects">Projects</button>
+            </nav>
+
+            <div class="desktop-actions">
+              <div class="social-links">
+                <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                  <iconify-icon icon="lucide:linkedin" width="18" height="18"></iconify-icon>
+                </a>
+                <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">
+                  <iconify-icon icon="lucide:mail" width="18" height="18"></iconify-icon>
+                </a>
+                <a class="icon-link" href="https://www.strava.com/athletes/51497666" target="_blank" rel="noreferrer" aria-label="Strava">
+                  <iconify-icon icon="simple-icons:strava" width="18" height="18"></iconify-icon>
+                </a>
+              </div>
+
+              <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <iconify-icon id="themeIcon" icon="lucide:moon" width="16" height="16"></iconify-icon>
+                <span id="themeLabel">Dark mode</span>
+              </button>
+            </div>
+
+            <div class="mobile-controls">
+              <button class="theme-toggle" id="themeToggleMobile" aria-label="Toggle theme mobile" style="width:42px;padding:0;">
+                <iconify-icon id="themeIconMobile" icon="lucide:moon" width="16" height="16"></iconify-icon>
+              </button>
+              <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="6"  x2="21" y2="6"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-nav-list">
+              <button class="mobile-nav-btn active" data-page="home">Home</button>
+              <button class="mobile-nav-btn" data-page="resume">Resume</button>
+              <button class="mobile-nav-btn" data-page="experience">Experience</button>
+              <button class="mobile-nav-btn" data-page="projects">Projects</button>
+            </div>
+            <div class="mobile-contact-row">
+              <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <iconify-icon icon="lucide:linkedin" width="18" height="18"></iconify-icon>
+              </a>
+              <a class="icon-link" href="/cdn-cgi/l/email-protection#d2b0a0b3bcb6bdbca0b7bba5b3bcb592b5bfb3bbbefcb1bdbf" aria-label="Email">
+                <iconify-icon icon="lucide:mail" width="18" height="18"></iconify-icon>
+              </a>
+              <a class="icon-link" href="https://www.strava.com/athletes/51497666" target="_blank" rel="noreferrer" aria-label="Strava">
+                <iconify-icon icon="simple-icons:strava" width="18" height="18"></iconify-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ─── MAIN ────────────────────────────────────────── -->
+      <main class="container">
+
+        <!-- HOME ──────────────────────────────────────────── -->
+        <section class="section page" id="home">
+
+          <!-- Hero showcase: headshot + bio card -->
+          <div class="home-showcase" id="homeShowcase">
+            <div class="grid-home">
+
+              <!-- Headshot -->
+              <div class="headshot-card reveal" style="--reveal-delay:0.05s">
+                <img id="headshotImageEl" class="headshot-image hidden" src="" alt="Brandon Wang headshot" />
+                <div id="headshotPlaceholderEl" class="headshot-placeholder">
+                  <div class="headshot-placeholder-circle">👤</div>
+                  <div>
+                    <strong style="display:block;color:var(--text);margin-bottom:6px;">Headshot Placeholder</strong>
+                    Add your image file path in the <code style="font-family:var(--mono);font-size:0.85em;">headshotImage</code> variable.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hero bio card -->
+              <div class="hero reveal" style="--reveal-delay:0.18s">
+
+                <div class="hero-eyebrow">
+                  <span class="hero-cred">The Ohio State University</span>
+                </div>
+
+                <h1 class="hero-name">Brandon<br>Wang</h1>
+
+                <!-- Only italic text on site -->
+                <h2 id="heroHeading">Aspiring Electrical Engineer</h2>
+
+                <p>
+                  I'm a junior Electrical Engineering student at The Ohio State University passionate about building innovative hardware that connects technology with real human impact. As a hands-on, project-driven engineer, I focus on sensors, embedded electronics, prototyping, and research-driven design while tackling challenging problems and turning ideas into working systems.
+                </p>
+                <p>
+                  Dive in and explore my technical work and projects!
+                </p>
+
+                <div class="hero-stats">
+                  <div class="hero-stat">
+                    <span class="hero-stat-value">Northrop Grumman</span>
+                    <span class="hero-stat-label">Incoming May '26</span>
+                  </div>
+                  <div class="hero-stat-divider"></div>
+                  <div class="hero-stat">
+                    <span class="hero-stat-value">Johnson &amp; Johnson Medtech</span>
+                    <span class="hero-stat-label">Incoming Aug. '26</span>
+                  </div>
+                  <div class="hero-stat-divider"></div>
+                  <div class="hero-stat">
+                    <span class="hero-stat-value">Electroscience Laboratory</span>
+                    <span class="hero-stat-label">Research</span>
+                  </div>
+                </div>
+
+                <div class="hero-actions">
+                  <button class="primary-btn" data-page="projects">
+                    <iconify-icon icon="lucide:layers" width="16" height="16"></iconify-icon>
+                    View Projects
+                  </button>
+                  <button class="secondary-btn" data-page="resume">
+                    <iconify-icon icon="lucide:file-text" width="16" height="16"></iconify-icon>
+                    Open Resume
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Featured Circle Project — static card, content TBD -->
+          <div class="home-circle-feature reveal" style="--reveal-delay:0.40s">
+            <div class="circle-feature-eyebrow">
+              <span class="eyebrow">// Current Project</span>
+            </div>
+            <div class="circle-feature-card">
+              <!-- Visual side -->
+              <div class="circle-feature-visual">
+                <img src="circleV2.png" alt="Circle v2.0" class="circle-feature-img" onerror="this.style.display='none'" />
+                <div class="circle-feature-status">
+                  <span class="circle-status-dot"></span>
+                  In Progress
+                </div>
+              </div>
+              <!-- Meta side -->
+              <div class="circle-feature-meta">
+                <div class="project-category">Embedded Systems / RF Hardware</div>
+                <h3 class="circle-feature-title">Circle v2.0</h3>
+                <p class="circle-feature-desc">
+                  Enhancing hardware design, firmware capabilities, and user experience based on initial testing and feedback of Circle v1.0. A wearable game controller for kids developed in collaboration with Nationwide Children's Hospital.
+                </p>
+                <div class="project-tags">
+                  <span class="tag">RF PCB Design</span>
+                  <span class="tag">Sensors</span>
+                  <span class="tag">Firmware</span>
+                  <span class="tag">nRF52840</span>
+                </div>
+                <div class="circle-feature-actions">
+                  <button class="secondary-btn" data-page="projects">
+                    <iconify-icon icon="lucide:layers" width="15" height="15"></iconify-icon>
+                    All Projects
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- RESUME ────────────────────────────────────────── -->
+        <section class="section page hidden" id="resume">
+          <div class="section-head">
+            <span class="eyebrow">// Document</span>
+            <h2>Resume</h2>
+          </div>
+
+          <!-- Download / Open actions -->
+          <div class="resume-actions reveal">
+            <a class="secondary-btn" id="resumeLink" href="BrandonWang_Resume.pdf" target="_blank" rel="noreferrer">
+              <iconify-icon icon="lucide:external-link" width="15" height="15"></iconify-icon>
+              Open PDF
+            </a>
+            <a class="primary-btn" href="BrandonWang_Resume.pdf" download="BrandonWang_Resume.pdf">
+              <iconify-icon icon="lucide:download" width="15" height="15"></iconify-icon>
+              Download PDF
+            </a>
+          </div>
+
+          <!-- HTML Resume -->
+          <div class="resume-html-doc reveal" style="--reveal-delay:0.15s">
+
+            <!-- Header -->
+            <div class="rh-hd">
+              <h1 class="rh-name">Brandon Wang</h1>
+              <div class="rh-contacts">
+                <a href="mailto:brandonreiwang@gmail.com">brandonreiwang@gmail.com</a>
+                <span class="rh-sep">·</span>
+                <a href="tel:5132508518">(513) 250-8518</a>
+                <span class="rh-sep">·</span>
+                <a href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer">linkedin.com/in/brandonreiwang</a>
+                <span class="rh-sep">·</span>
+                <a href="https://brandonwang67.github.io" target="_blank" rel="noreferrer">brandonwang67.github.io</a>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="rh-section">
+              <div class="rh-section-title">Education</div>
+              <div class="rh-block">
+                <div class="rh-row">
+                  <div class="rh-row-left">
+                    <div class="rh-org">The Ohio State University</div>
+                    <div class="rh-degree">B.S. in Electrical Engineering with Research Distinction</div>
+                    <div class="rh-note">Land Grant Scholar — Full Ride Scholarship</div>
+                    <div class="rh-sub">Areas of Interest: Wearables, Medical Devices, RF Hardware, Circuit Design, Sensors</div>
+                  </div>
+                  <div class="rh-meta">
+                    <div class="rh-location">Columbus, OH</div>
+                    <div class="rh-date">Expected May 2027</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Academic Research -->
+            <div class="rh-section">
+              <div class="rh-section-title">Academic Research</div>
+
+              <div class="rh-block">
+                <div class="rh-row">
+                  <div class="rh-row-left">
+                    <div class="rh-org">Wearable and Implantable Tech., Electroscience Lab</div>
+                    <div class="rh-role">Undergraduate Researcher</div>
+                    <div class="rh-project">Touch-Based Sensors for Collaborative Interaction</div>
+                  </div>
+                  <div class="rh-meta">
+                    <div class="rh-location">Columbus, OH</div>
+                    <div class="rh-date">Aug. 2025 – Present</div>
+                  </div>
+                </div>
+                <div class="rh-skills-line">
+                  <span class="rh-skill-label">Skills:</span> EasyEDA Pro, LTspice, nRF52840 (MCU), LSM6DSOTR (IMU), Network Analyzer, Spectrum Analyzer, C++, Python
+                </div>
+                <ul class="rh-bullets">
+                  <li>Designed 12MHz Tx/Rx circuits for a pediatric touch-based wearable game controller, prioritizing safety and comfortability</li>
+                  <li>Developed optimized low-latency embedded firmware for the nRF52840 SoC to process real-time analog-to-digital inputs</li>
+                  <li>Optimized for passband frequency and signal integrity by simulating and characterizing custom passive Chebyshev filters</li>
+                  <li>Conducted bench validation using network and spectrum analyzers to verify signal integrity, bandwidth, and performance</li>
+                </ul>
+              </div>
+
+              <div class="rh-block rh-block--sub">
+                <div class="rh-row">
+                  <div class="rh-project">Magnetocardiogram (MCG) Sensors</div>
+                  <div class="rh-date">Jan. 2024 – Jan. 2025</div>
+                </div>
+                <div class="rh-skills-line">
+                  <span class="rh-skill-label">Skills:</span> KiCad, MATLAB, LabVIEW, Coil Array Design, MCG &amp; ECG Apparatus, Fusion360
+                </div>
+                <ul class="rh-bullets">
+                  <li>Built a LabVIEW GUI to simultaneously collect and synchronize data from both MCG and electrocardiogram test setups</li>
+                  <li>Wrote a signal processing program in MATLAB using EMD algorithm to extract one averaged frame from large datasets</li>
+                  <li>Simplified experimental MCG testing setup, reducing complexity by 50% and improving the signal-to-noise ratio by 10%</li>
+                  <li>Created a new coil array housing to boost testing efficiency and enabling color customization when testing with children</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Work Experience -->
+            <div class="rh-section">
+              <div class="rh-section-title">Work Experience</div>
+
+              <div class="rh-block">
+                <div class="rh-row">
+                  <div class="rh-row-left">
+                    <div class="rh-org">Johnson &amp; Johnson MedTech</div>
+                    <div class="rh-role">Electrical Engineering Co-op — Ethicon, Research and Development</div>
+                  </div>
+                  <div class="rh-meta">
+                    <div class="rh-location">Cincinnati, OH</div>
+                    <div class="rh-date">Incoming Aug. 2026</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rh-block">
+                <div class="rh-row">
+                  <div class="rh-row-left">
+                    <div class="rh-org">Northrop Grumman</div>
+                    <div class="rh-role">Electrical Engineering Intern — Mission Systems, Airborne Multifunction Sensors</div>
+                  </div>
+                  <div class="rh-meta">
+                    <div class="rh-location">Baltimore, MD</div>
+                    <div class="rh-date">Incoming May 2026</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rh-block">
+                <div class="rh-row">
+                  <div class="rh-row-left">
+                    <div class="rh-org">GE Appliances</div>
+                    <div class="rh-role">Electrical Engineering Co-op</div>
+                  </div>
+                  <div class="rh-meta">
+                    <div class="rh-location">Louisville, KY</div>
+                  </div>
+                </div>
+
+                <div class="rh-block--sub" style="margin-top:14px">
+                  <div class="rh-row">
+                    <div class="rh-project">Dishwashers, New Product Introduction</div>
+                    <div class="rh-date">May 2025 – Aug. 2025</div>
+                  </div>
+                  <div class="rh-skills-line">
+                    <span class="rh-skill-label">Skills:</span> Cadence Allegro, Python, Tableau, FRACAS, Root Cause Analyses, Oscilloscope, ESP32
+                  </div>
+                  <ul class="rh-bullets">
+                    <li>Drove long-term design improvements and reliability by conducting rigorous root cause analysis on 3 unique FRACAS</li>
+                    <li>Designed and debugged a custom ESP32 shield with VL53L0X IR sensor in Cadence Allegro to measure distance data</li>
+                    <li>Built a Python-based automation tool to manage OTA software and health checks, eliminating 95% of manual effort</li>
+                    <li>Managed over 100+ dishwashers in field tests, ensuring up-to-date software, continuous operation, and test reliability</li>
+                    <li>Reworked dishwashers in test labs to integrate a new LCD from an alternate manufacturer, ensuring 100% functionality</li>
+                  </ul>
+                </div>
+
+                <div class="rh-block--sub" style="margin-top:14px">
+                  <div class="rh-row">
+                    <div class="rh-project">Refrigeration, Cost of Quality</div>
+                    <div class="rh-date">Jan. 2025 – May 2025</div>
+                  </div>
+                  <div class="rh-skills-line">
+                    <span class="rh-skill-label">Skills:</span> Root Cause Analysis, Accelerated Life Testing, ESD Testing, PCB Rework, Oscilloscope, Multimeter
+                  </div>
+                  <ul class="rh-bullets">
+                    <li>Used accelerated life testing (ALT) methods to evaluate and compare the long-term reliability of multiple LED models</li>
+                    <li>Performed air and contact electrostatic discharge testing to locate common power rail failure in refrigerator main boards</li>
+                    <li>Performed in-depth RCA on refrigerator PCBs to identify manufacturing defects and enhance overall quality of products</li>
+                    <li>Designed test board panels to efficiently compare 5+ different LED color temperatures and its effect on food appearance</li>
+                    <li>Validated reliability of new ultrasonic sensors by testing performance across varying sensitivity and coupling parameters</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="rh-section">
+              <div class="rh-section-title">Projects</div>
+              <div class="rh-block">
+                <div class="rh-project">Assistive Pushing Device for Strollers</div>
+                <ul class="rh-bullets">
+                  <li>Designed a propulsion system using DC motor torque assist and mechanical load coupling to reduce uphill push resistance</li>
+                </ul>
+              </div>
+              <div class="rh-block">
+                <div class="rh-project">BattleBot — APPA</div>
+                <ul class="rh-bullets">
+                  <li>Designed and manufactured a fully functional 15lb combat robot with a 3.2lb weapon carrying a tip speed of 120mph</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Technical Skills -->
+            <div class="rh-section">
+              <div class="rh-section-title">Technical Skills</div>
+              <div class="rh-skills-grid">
+                <div class="rh-skill-row">
+                  <div class="rh-skill-cat">Design Software</div>
+                  <div class="rh-skill-list">Cadence Allegro, KiCad, EasyEDA Pro, Altium, LTspice, LabVIEW, Fusion360, Solidworks, Tableau, Windchill</div>
+                </div>
+                <div class="rh-skill-row">
+                  <div class="rh-skill-cat">Benchtop Tools</div>
+                  <div class="rh-skill-list">Oscilloscope, Digital Multimeter, Spectrum Analyzer, Network Analyzer, Waveform Generator, SMD Soldering</div>
+                </div>
+                <div class="rh-skill-row">
+                  <div class="rh-skill-cat">Embedded &amp; Firmware</div>
+                  <div class="rh-skill-list">MATLAB, Microcontrollers (ESP32, nRF52840, Arduino), Python, C++</div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /resume-html-doc -->
+        </section>
+
+        <!-- EXPERIENCE ─────────────────────────────────────── -->
+        <section class="section page hidden" id="experience">
+          <div class="section-head">
+            <span class="eyebrow">// Work history</span>
+            <h2>Experience</h2>
+          </div>
+          <div class="experience-grid">
+            <div class="timeline" id="timeline"></div>
+            <div class="experience-carousel-column">
+              <div class="experience-carousel-container" id="expCarouselContainer"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECTS ───────────────────────────────────────── -->
+        <section class="section page hidden" id="projects">
+          <div class="section-head">
+            <span class="eyebrow">// Engineering portfolio</span>
+            <h2>Projects</h2>
+            <p class="section-subtitle">Hardware, firmware, signal processing, and more — built from idea to working system.</p>
+          </div>
+          <!-- Magazine grid — populated by JS -->
+          <div class="projects-magazine" id="projectsGrid"></div>
+        </section>
+
+      </main>
+
+      <!-- ─── FOOTER ─────────────────────────────────────── -->
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-inner">
+            <div class="footer-brand">
+              <span class="footer-brand-name">Brandon Wang</span>
+              <span class="footer-brand-sub">Electrical Engineer · OSU · Columbus, OH</span>
+            </div>
+            <div class="footer-links">
+              <a class="icon-link" href="https://www.linkedin.com/in/brandonreiwang" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <iconify-icon icon="lucide:linkedin" width="17" height="17"></iconify-icon>
+              </a>
+              <a class="icon-link" href="mailto:brandonreiwang@gmail.com" aria-label="Email">
+                <iconify-icon icon="lucide:mail" width="17" height="17"></iconify-icon>
+              </a>
+              <a class="icon-link" href="https://www.strava.com/athletes/51497666" target="_blank" rel="noreferrer" aria-label="Strava">
+                <iconify-icon icon="simple-icons:strava" width="17" height="17"></iconify-icon>
+              </a>
+            </div>
+            <p class="footer-copy">
+              <span style="opacity:0.5">© 2026 Brandon Wang</span>
+            </p>
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /shell -->
+
+    <!-- ─── PROJECT MODAL ──────────────────────────────────── -->
+    <div class="modal" id="projectModal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-top">
+          <div>
+            <div class="project-category" id="modalCategory"></div>
+            <h3 id="modalTitle" style="margin:8px 0 0;font-size:1.3rem;letter-spacing:-0.025em;"></h3>
+            <p id="modalSummary" style="margin:8px 0 0;color:var(--muted);line-height:1.8;font-size:0.94rem;"></p>
+          </div>
+          <button class="modal-close" id="modalClose" aria-label="Close modal">
+            <iconify-icon icon="lucide:x" width="16" height="16"></iconify-icon>
+          </button>
+        </div>
+        <iframe class="modal-frame" id="modalFrame" title="Project PDF"></iframe>
+      </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
