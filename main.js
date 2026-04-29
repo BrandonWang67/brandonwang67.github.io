@@ -649,7 +649,6 @@ function renderProjects() {
         ${hasPdf ? `
         <button class="pm-view-btn" aria-label="View ${project.title}">
           <iconify-icon icon="lucide:arrow-up-right" width="16" height="16"></iconify-icon>
-          View
         </button>` : ""}
       </div>
     `;
